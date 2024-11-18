@@ -22,6 +22,7 @@ export default tsEslint.config(
       },
     },
     rules: {
+      "prefer-const": "off",
       "import/no-unresolved": "off",
       "import/newline-after-import": ["error", { considerComments: true, count: 1 }],
       "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
@@ -56,6 +57,7 @@ export default tsEslint.config(
       parser: tsEslint.parser,
     },
     rules: {
+      // https://github.com/eslint/eslint/issues/19134
       "@typescript-eslint/no-unused-expressions": "off",
       "@typescript-eslint/consistent-type-imports": "error",
       "@typescript-eslint/no-empty-interface": "off",

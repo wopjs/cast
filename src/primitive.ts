@@ -76,14 +76,14 @@ export const toNonEmptyPlainObject = <T extends PlainObject>(x: T): T | _ =>
  */
 export const toPlainObjectOf = <T>(x: unknown, f: (v: unknown) => v is T): { [key: PropertyKey]: T } | _ => {
   if (isPlainObject(x)) {
-    const props = Object.keys(x);
-    const length = props.length;
     let index = -1;
+    let props = Object.keys(x);
+    let length = props.length;
     let result: { [key: PropertyKey]: T } | _;
 
     while (++index < length) {
-      const key = props[index];
-      const value = x[key];
+      let key = props[index];
+      let value = x[key];
       if (f(value)) {
         (result ??= {})[key] = value;
       }
