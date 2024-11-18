@@ -49,7 +49,7 @@ export default tsEslint.config(
     },
   },
   {
-    files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+    files: ["**/*.{js,mjs,cjs,jsx,ts,tsx}"],
     plugins: {
       "@typescript-eslint": tsEslint.plugin,
     },

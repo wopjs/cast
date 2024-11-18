@@ -6,12 +6,30 @@
 [![Coverage Status](https://img.shields.io/coverallsCoverage/github/wopjs/cast)](https://coveralls.io/github/wopjs/cast)
 [![minified-size](https://img.shields.io/bundlephobia/minzip/@wopjs/cast)](https://bundlephobia.com/package/@wopjs/cast)
 
-cast
+Filter types from unknown.
 
 ## Install
 
 ```
 npm add @wopjs/cast
+```
+
+## Usage
+
+```js
+import * as c from "@wopjs/cast";
+import { Option } from "@wopjs/tsur";
+
+const dataParser = {
+  width: c.toNumber,
+  position: a => Option.from(a, a => a && c.isNumber(a.x) && c.isNumber(a.y)),
+  metadata: c.toNonEmptyPlainObject,
+};
+
+function parseData(data) {
+  const d = c.asObject(data);
+  return Object.fromEntries(Object.keys(dataParser).map(k => [k, Option.unwrapOr(dataParser[k](d[k]))]));
+}
 ```
 
 ## Publish New Version

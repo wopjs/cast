@@ -55,7 +55,16 @@ export interface PlainObject {
 /** Returns `true` if `x` is an object (including array) and not null. */
 export const isObject = (x: unknown): x is object => x !== null && typeof x === "object";
 
+/** Returns `x` if `x` is an object (including array), otherwise returns `{}` (empty object). */
+export const asObject = (x: unknown): object => (isObject(x) ? x : {});
+
 export const isArray = Array.isArray;
+
+/** Returns `true` if `x` is an array. */
+export const toArray = (x: unknown): unknown[] | undefined => (isArray(x) ? x : _);
+
+/** Returns `x` if `x` is an array, otherwise returns `[]` (empty array). */
+export const asArray = (x: unknown): unknown[] => (isArray(x) ? x : []);
 
 /** Returns `true` if `x` is a plain object (shallow test), not `null` or array. */
 export const isPlainObject = (x: unknown): x is PlainObject => isObject(x) && !isArray(x);
