@@ -51,7 +51,6 @@
     "gzip-size": "^7.0.0",
     "prettier": "^3.3.3",
     "pretty-bytes": "^6.1.1",
-    "radash": "^12.1.0",
     "tsup": "^8.3.5",
     "typedoc": "^0.26.11",
     "typescript": "^5.6.3",

@@ -1,5 +1,3 @@
-import { isNumber, isString, isObject, isArray } from "radash";
-
 const _ = undefined;
 export type _ = undefined;
 
@@ -16,11 +14,17 @@ export const isBoolean = (x: unknown): x is boolean => x === true || x === false
 /** Returns `x` if `x` is `true` or `false`, otherwise returns `undefined`. */
 export const toBoolean = (x: unknown): boolean | _ => (isBoolean(x) ? x : _);
 
+/** Returns `true` if `x` is a number, returns `false` if `x` is `NaN` or other value. */
+export const isNumber = (x: unknown): x is number => typeof x === "number" && x === x;
+
 /** Returns `x` if `x` is a number, `NaN` and other value will be coerced to `undefined`. */
 export const toNumber = (x: unknown): number | _ => (isNumber(x) ? x : _);
 
 /** Returns `x` if `x` is a number, `NaN` and other value will be coerced to `0`. */
 export const asNumber = (x: unknown): number => (isNumber(x) ? x : 0);
+
+/** Returns `true` if `x` is a string. */
+export const isString = (x: unknown): x is string => typeof x === "string";
 
 /** Returns `x` if `x` is a string, otherwise returns `undefined`. */
 export const toString = (x: unknown): string | _ => (isString(x) ? x : _);
@@ -48,6 +52,11 @@ export interface PlainObject {
   [key: PropertyKey]: unknown;
 }
 
+/** Returns `true` if `x` is an object (including array) and not null. */
+export const isObject = (x: unknown): x is object => x !== null && typeof x === "object";
+
+export const isArray = Array.isArray;
+
 /** Returns `true` if `x` is a plain object (shallow test), not `null` or array. */
 export const isPlainObject = (x: unknown): x is PlainObject => isObject(x) && !isArray(x);
 
@@ -67,17 +76,20 @@ export const toNonEmptyPlainObject = <T extends PlainObject>(x: T): T | _ =>
  */
 export const toPlainObjectOf = <T>(x: unknown, f: (v: unknown) => v is T): { [key: PropertyKey]: T } | _ => {
   if (isPlainObject(x)) {
-    let done = false;
-    let result: { [key: PropertyKey]: T } = {};
-    for (let [key, value] of Object.entries(x)) {
+    let index = -1;
+    let props = Object.keys(x);
+    let length = props.length;
+    let result: { [key: PropertyKey]: T } | _;
+
+    while (++index < length) {
+      let key = props[index];
+      let value = x[key];
       if (f(value)) {
-        done = true;
-        result[key] = value;
+        (result ??= {})[key] = value;
       }
     }
-    if (done) {
-      return result;
-    }
+
+    return result;
   }
 };
 
