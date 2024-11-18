@@ -37,7 +37,7 @@ export const asString = (x: unknown): string => (isString(x) ? x : "");
  * `x` is `null` or `undefined`, otherwise returns `JSON.stringify(x)`.
  * This is very useful to show a value inside a React component.
  */
-export const show = (x: unknown): string => {
+export const print = (x: unknown): string => {
   if (isString(x)) return x;
   if (x == null) return "";
   try {
