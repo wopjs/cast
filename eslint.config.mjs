@@ -57,8 +57,6 @@ export default tsEslint.config(
       parser: tsEslint.parser,
     },
     rules: {
-      // https://github.com/eslint/eslint/issues/19134
-      "@typescript-eslint/no-unused-expressions": "off",
       "@typescript-eslint/consistent-type-imports": "error",
       "@typescript-eslint/no-empty-interface": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
