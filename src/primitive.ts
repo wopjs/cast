@@ -60,8 +60,11 @@ export const asObject = (x: unknown): object => (isObject(x) ? x : {});
 
 export const isArray = Array.isArray;
 
-/** Returns `true` if `x` is an array. */
+/** Returns `x` if `x` is an array. */
 export const toArray = (x: unknown): unknown[] | undefined => (isArray(x) ? x : _);
+
+/** Returns `x` if `x` is an array and has at least one element, otherwise returns `undefined`. */
+export const toNonEmptyArray = <T>(x: T[]): T[] | _ => (x.length > 0 ? x : _);
 
 /** Returns `x` if `x` is an array, otherwise returns `[]` (empty array). */
 export const asArray = (x: unknown): unknown[] => (isArray(x) ? x : []);
