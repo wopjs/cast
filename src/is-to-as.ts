@@ -1,6 +1,9 @@
 const _ = undefined;
 export type _ = undefined;
 
+/** Returns `true` if `x` is not `undefined`. */
+export const isDefined = <T>(x: T | undefined): x is T => x !== _;
+
 export const isTrue = (x: unknown): x is true => x === true;
 
 /** Returns `true` if `x` is `true`, otherwise returns `undefined`. */
@@ -32,31 +35,11 @@ export const toString = (x: unknown): string | _ => (isString(x) ? x : _);
 /** Returns `x` if `x` is a string, otherwise returns `''` (empty string). */
 export const asString = (x: unknown): string => (isString(x) ? x : "");
 
-/**
- * Returns `x` if `x` is string, otherwise returns `''` (empty string) if
- * `x` is `null` or `undefined`, otherwise returns `JSON.stringify(x)`.
- * This is very useful to show a value inside a React component.
- */
-export const print = (x: unknown): string => {
-  if (isString(x)) return x;
-  if (x == null) return "";
-  try {
-    return JSON.stringify(x, null, 2);
-  } catch {
-    // Insane case is not handled: x = { toString: () => { throw x } }
-    return x + "";
-  }
-};
+/** Returns `true` if `x` is a string and not `''`. */
+export const isNonEmptyString = (x: unknown): x is string => isString(x) && x !== "";
 
-export interface PlainObject {
-  [key: PropertyKey]: unknown;
-}
-
-/** Returns `true` if `x` is an object (including array) and not null. */
-export const isObject = (x: unknown): x is object => x !== null && typeof x === "object";
-
-/** Returns `x` if `x` is an object (including array), otherwise returns `{}` (empty object). */
-export const asObject = (x: unknown): object => (isObject(x) ? x : {});
+/** Returns `x` if `x` is a string and not empty, otherwise returns `undefined`. */
+export const toNonEmptyString = (x: unknown): string | _ => (isNonEmptyString(x) ? x : _);
 
 export const isArray = Array.isArray;
 
@@ -69,6 +52,16 @@ export const toNonEmptyArray = <T>(x: T[]): T[] | _ => (x.length > 0 ? x : _);
 /** Returns `x` if `x` is an array, otherwise returns `[]` (empty array). */
 export const asArray = (x: unknown): unknown[] => (isArray(x) ? x : []);
 
+export interface PlainObject {
+  [key: PropertyKey]: unknown;
+}
+
+/** Returns `true` if `x` is an object (including array) and not null. */
+export const isObject = (x: unknown): x is object => x !== null && typeof x === "object";
+
+/** Returns `x` if `x` is an object (including array), otherwise returns `{}` (empty object). */
+export const asObject = (x: unknown): object => (isObject(x) ? x : {});
+
 /** Returns `true` if `x` is a plain object (shallow test), not `null` or array. */
 export const isPlainObject = (x: unknown): x is PlainObject => isObject(x) && !isArray(x);
 
@@ -78,9 +71,18 @@ export const toPlainObject = (x: unknown): PlainObject | _ => (isPlainObject(x) 
 /** Returns `x` if `x` is a plain object, otherwise returns `{}` (empty object). */
 export const asPlainObject = (x: unknown): PlainObject => (isPlainObject(x) ? x : {});
 
+/** Returns `true` if `x` is a plain object and has at least one key. */
+export const isNonEmptyPlainObject = (x: unknown): x is PlainObject => isPlainObject(x) && Object.keys(x).length > 0;
+
 /** Returns `x` if `x` is a plain object and has at least one key. */
-export const toNonEmptyPlainObject = <T extends PlainObject>(x: T): T | _ =>
-  isPlainObject(x) && Object.keys(x).length > 0 ? x : _;
+export const toNonEmptyPlainObject = <T extends PlainObject>(x: T): T | _ => (isNonEmptyPlainObject(x) ? x : _);
+
+/** Returns `true` if `x` is a plain object and has at least one key with non-undefined value. */
+export const isNonEmptyJSONObject = (x: unknown): x is PlainObject =>
+  isPlainObject(x) && Object.values(x).some(isDefined);
+
+/** Returns `x` if `x` is a plain object and has at least one key with non-undefined value, otherwise returns `undefined`. */
+export const toNonEmptyJSONObject = <T extends PlainObject>(x: T): T | _ => (isNonEmptyJSONObject(x) ? x : _);
 
 /**
  * Creates an object from `x` with keys `k` if `f(x[k])` returns `true`.
@@ -107,3 +109,19 @@ export const toPlainObjectOf = <T>(x: unknown, f: (v: unknown) => v is T): { [ke
 
 /** Filter props from object `x` whose values are `true`. */
 export const toPlainObjectOfTrue = (x: unknown): { [key: PropertyKey]: true } | _ => toPlainObjectOf(x, isTrue);
+
+/**
+ * Returns `x` if `x` is string, otherwise returns `''` (empty string) if
+ * `x` is `null` or `undefined`, otherwise returns `JSON.stringify(x)`.
+ * This is very useful to show a value inside a React component.
+ */
+export const print = (x: unknown): string => {
+  if (isString(x)) return x;
+  if (x == null) return "";
+  try {
+    return JSON.stringify(x, null, 2);
+  } catch {
+    // Insane case is not handled: x = { toString: () => { throw x } }
+    return x + "";
+  }
+};

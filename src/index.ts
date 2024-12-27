@@ -1,1 +1,2 @@
-export * from "./primitive";
+export * from "./is-to-as";
+export * from "./returns";

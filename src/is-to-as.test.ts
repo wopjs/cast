@@ -1,6 +1,7 @@
 import { describe, it, expect } from "vitest";
 
 import {
+  isDefined,
   isTrue,
   toTrue,
   asTrue,
@@ -12,18 +13,32 @@ import {
   isString,
   toString,
   asString,
+  isNonEmptyString,
+  toNonEmptyString,
   print,
-  isObject,
   isArray,
+  toArray,
+  asArray,
+  toNonEmptyArray,
+  isObject,
+  asObject,
   isPlainObject,
   toPlainObject,
   asPlainObject,
+  isNonEmptyPlainObject,
   toNonEmptyPlainObject,
+  isNonEmptyJSONObject,
+  toNonEmptyJSONObject,
   toPlainObjectOf,
   toPlainObjectOfTrue,
 } from ".";
 
 describe("primitive.ts", () => {
+  it("isDefined", () => {
+    expect(isDefined(1)).toBe(true);
+    expect(isDefined(undefined)).toBe(false);
+  });
+
   it("isTrue", () => {
     expect(isTrue(true)).toBe(true);
     expect(isTrue(false)).toBe(false);
@@ -90,20 +105,36 @@ describe("primitive.ts", () => {
     expect(asString(true)).toBe("");
   });
 
-  it("show", () => {
-    expect(print("hello")).toBe("hello");
-    expect(print(null)).toBe("");
-    expect(print({ a: 1 })).toBe(JSON.stringify({ a: 1 }, null, 2));
-    expect(
-      print({
-        toJSON() {
-          throw new Error("x");
-        },
-        toString() {
-          return "str";
-        },
-      })
-    ).toBe("str");
+  it("isNonEmptyString", () => {
+    expect(isNonEmptyString("hello")).toBe(true);
+    expect(isNonEmptyString("")).toBe(false);
+    expect(isNonEmptyString(1)).toBe(false);
+  });
+
+  it("toNonEmptyString", () => {
+    expect(toNonEmptyString("hello")).toBe("hello");
+    expect(toNonEmptyString("")).toBe(undefined);
+    expect(toNonEmptyString(1)).toBe(undefined);
+  });
+
+  it("isArray", () => {
+    expect(isArray([])).toBe(true);
+    expect(isArray({})).toBe(false);
+  });
+
+  it("toArray", () => {
+    expect(toArray([])).toEqual([]);
+    expect(toArray({})).toBe(undefined);
+  });
+
+  it("asArray", () => {
+    expect(asArray([])).toEqual([]);
+    expect(asArray({})).toEqual([]);
+  });
+
+  it("toNonEmptyArray", () => {
+    expect(toNonEmptyArray([1])).toEqual([1]);
+    expect(toNonEmptyArray([])).toBe(undefined);
   });
 
   it("isObject", () => {
@@ -112,9 +143,10 @@ describe("primitive.ts", () => {
     expect(isObject(null)).toBe(false);
   });
 
-  it("isArray", () => {
-    expect(isArray([])).toBe(true);
-    expect(isArray({})).toBe(false);
+  it("asObject", () => {
+    expect(asObject({})).toEqual({});
+    expect(asObject([])).toEqual([]);
+    expect(asObject(null)).toEqual({});
   });
 
   it("isPlainObject", () => {
@@ -135,9 +167,26 @@ describe("primitive.ts", () => {
     expect(asPlainObject(null)).toEqual({});
   });
 
+  it("isNonEmptyPlainObject", () => {
+    expect(isNonEmptyPlainObject({ a: 1 })).toBe(true);
+    expect(isNonEmptyPlainObject({})).toBe(false);
+    expect(isNonEmptyPlainObject([])).toBe(false);
+  });
+
   it("toNonEmptyPlainObject", () => {
     expect(toNonEmptyPlainObject({ a: 1 })).toEqual({ a: 1 });
     expect(toNonEmptyPlainObject({})).toBe(undefined);
+  });
+
+  it("isNonEmptyJSONObject", () => {
+    expect(isNonEmptyJSONObject({ a: 1 })).toBe(true);
+    expect(isNonEmptyJSONObject({})).toBe(false);
+    expect(isNonEmptyJSONObject([])).toBe(false);
+  });
+
+  it("toNonEmptyJSONObject", () => {
+    expect(toNonEmptyJSONObject({ a: 1 })).toEqual({ a: 1 });
+    expect(toNonEmptyJSONObject({})).toBe(undefined);
   });
 
   it("toPlainObjectOf", () => {
@@ -148,5 +197,21 @@ describe("primitive.ts", () => {
   it("toPlainObjectOfTrue", () => {
     expect(toPlainObjectOfTrue({ a: true, b: false })).toEqual({ a: true });
     expect(toPlainObjectOfTrue({ a: 1, b: 2 })).toBe(undefined);
+  });
+
+  it("print", () => {
+    expect(print("hello")).toBe("hello");
+    expect(print(null)).toBe("");
+    expect(print({ a: 1 })).toBe(JSON.stringify({ a: 1 }, null, 2));
+    expect(
+      print({
+        toJSON() {
+          throw new Error("x");
+        },
+        toString() {
+          return "str";
+        },
+      })
+    ).toBe("str");
   });
 });
