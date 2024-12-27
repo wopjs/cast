@@ -5,6 +5,8 @@ import {
   isTrue,
   toTrue,
   asTrue,
+  isTruthy,
+  isFalsy,
   isBoolean,
   toBoolean,
   isNumber,
@@ -55,6 +57,18 @@ describe("primitive.ts", () => {
     expect(asTrue(true)).toBe(true);
     expect(asTrue(false)).toBe(false);
     expect(asTrue(1)).toBe(false);
+  });
+
+  it("isTruthy", () => {
+    expect(isTruthy(true)).toBe(true);
+    expect(isTruthy(false)).toBe(false);
+    expect(isTruthy(1)).toBe(true);
+  });
+
+  it("isFalsy", () => {
+    expect(isFalsy(true)).toBe(false);
+    expect(isFalsy(false)).toBe(true);
+    expect(isFalsy(1)).toBe(false);
   });
 
   it("isBoolean", () => {
@@ -199,7 +213,7 @@ describe("primitive.ts", () => {
     expect(toPlainObjectOfTrue({ a: 1, b: 2 })).toBe(undefined);
   });
 
-  it("print", () => {
+  it("show", () => {
     expect(print("hello")).toBe("hello");
     expect(print(null)).toBe("");
     expect(print({ a: 1 })).toBe(JSON.stringify({ a: 1 }, null, 2));

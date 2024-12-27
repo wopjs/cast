@@ -12,6 +12,19 @@ export const toTrue = (x: unknown): true | _ => (x === true ? true : _);
 /** Returns `true` if `x` is `true`, otherwise returns `false`. */
 export const asTrue = (x: unknown): boolean => (x === true ? x : false);
 
+export type Falsy = false | null | undefined | 0 | "";
+
+export interface IsFalsy {
+  (x: unknown): x is Falsy;
+  <T>(x: T): x is Extract<T, Falsy>;
+}
+
+/** Returns `true` if `Boolean(x)` is `false`. */
+export const isFalsy: IsFalsy = (x: unknown): x is Falsy => !x;
+
+/** Returns `true` if `Boolean(x)` is `true`. */
+export const isTruthy = <T>(x: T): x is Exclude<T, Falsy> => !!x;
+
 export const isBoolean = (x: unknown): x is boolean => x === true || x === false;
 
 /** Returns `x` if `x` is `true` or `false`, otherwise returns `undefined`. */
