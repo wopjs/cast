@@ -25,6 +25,9 @@ export const isFalsy: IsFalsy = (x: unknown): x is Falsy => !x;
 /** Returns `true` if `Boolean(x)` is `true`. */
 export const isTruthy = <T>(x: T): x is Exclude<T, Falsy> => !!x;
 
+/** Returns `x` if `Boolean(x)` is `true`, otherwise returns `undefined`. */
+export const toTruthy = <T>(x: T): Exclude<T, Falsy> | _ => (isTruthy(x) ? x : _);
+
 export const isBoolean = (x: unknown): x is boolean => x === true || x === false;
 
 /** Returns `x` if `x` is `true` or `false`, otherwise returns `undefined`. */
