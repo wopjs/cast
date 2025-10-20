@@ -33,6 +33,7 @@ import {
   toNonEmptyJSONObject,
   toPlainObjectOf,
   toPlainObjectOfTrue,
+  toTruthy,
 } from ".";
 
 describe("primitive.ts", () => {
@@ -63,6 +64,22 @@ describe("primitive.ts", () => {
     expect(isTruthy(true)).toBe(true);
     expect(isTruthy(false)).toBe(false);
     expect(isTruthy(1)).toBe(true);
+  });
+
+  it("toTruthy", () => {
+    const expectTruthy = (o: unknown) => expect(toTruthy(o)).toBe(o);
+    expectTruthy({});
+    expectTruthy([]);
+    expectTruthy("string");
+    expectTruthy(Symbol());
+    expectTruthy(1);
+    expectTruthy(true);
+
+    expect(toTruthy(false)).toBe(undefined);
+    expect(toTruthy(0)).toBe(undefined);
+    expect(toTruthy(NaN)).toBe(undefined);
+    expect(toTruthy(null)).toBe(undefined);
+    expect(toTruthy(undefined)).toBe(undefined);
   });
 
   it("isFalsy", () => {
