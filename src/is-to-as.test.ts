@@ -180,6 +180,20 @@ describe("primitive.ts", () => {
       const _check: [string, number] = tuple;
       expect(_check).toBe(tuple);
     }
+
+    // Type narrowing - unknown input returns any[] | undefined
+    const unknownValue: unknown = ["a", "b"];
+    if (isArray(unknownValue)) {
+      const _check: unknown[] = unknownValue;
+      expect(_check).toEqual(["a", "b"]);
+    }
+
+    // Type narrowing - non-array type (string) returns string & any[] | undefined
+    const stringValue: string = "hello";
+    if (isArray(stringValue)) {
+      const _check: unknown[] = stringValue;
+      expect(_check).toBe(undefined);
+    }
   });
 
   it("toArray", () => {
@@ -217,6 +231,16 @@ describe("primitive.ts", () => {
       const _check: [string, number] = result4;
       expect(_check).toBe(tuple);
     }
+
+    // Type narrowing - unknown input returns unknown[] | undefined
+    const unknownValue: unknown = ["a", "b"];
+    const result5: unknown[] | undefined = toArray(unknownValue);
+    expect(result5).toEqual(["a", "b"]);
+
+    // Type narrowing - non-array type (string) returns unknown[] | undefined
+    const stringValue: string = "hello";
+    const result6: unknown[] | undefined = toArray(stringValue);
+    expect(result6).toBe(undefined);
   });
 
   it("isNonEmptyArray", () => {
@@ -234,6 +258,9 @@ describe("primitive.ts", () => {
     if (isNonEmptyArray(stringArr)) {
       const _check: string[] = stringArr;
       expect(_check).toBe(stringArr);
+    } else {
+      const _check: never = stringArr;
+      throw new Error("Unreachable");
     }
 
     // Type narrowing - extracts array from union
@@ -241,6 +268,19 @@ describe("primitive.ts", () => {
     if (isNonEmptyArray(unionValue)) {
       const _check: string[] = unionValue;
       expect(_check).toBe(unionValue);
+    } else {
+      const _check: string = unionValue;
+      throw new Error("Unreachable");
+    }
+
+    // Type narrowing - extracts array from union
+    const stringLikeValue: string | string[] = "a";
+    if (isNonEmptyArray(stringLikeValue)) {
+      const _check: string[] = stringLikeValue;
+      throw new Error("Unreachable");
+    } else {
+      const _check: string = stringLikeValue;
+      expect(_check).toBe(stringLikeValue);
     }
 
     // Type narrowing - preserves readonly array
@@ -248,6 +288,9 @@ describe("primitive.ts", () => {
     if (isNonEmptyArray(readonlyArr)) {
       const _check: readonly number[] = readonlyArr;
       expect(_check).toBe(readonlyArr);
+    } else {
+      const _check: readonly number[] = readonlyArr;
+      throw new Error("Unreachable");
     }
 
     // Type narrowing - preserves tuple
@@ -255,6 +298,29 @@ describe("primitive.ts", () => {
     if (isNonEmptyArray(tuple)) {
       const _check: [string, number] = tuple;
       expect(_check).toBe(tuple);
+    } else {
+      const _check: never = tuple;
+      throw new Error("Unreachable");
+    }
+
+    // Type narrowing - unknown input returns unknown[]
+    const unknownValue: unknown = ["a", "b"];
+    if (isNonEmptyArray(unknownValue)) {
+      const _check: unknown[] = unknownValue;
+      expect(_check).toEqual(["a", "b"]);
+    } else {
+      const _check: unknown = unknownValue;
+      throw new Error("Unreachable");
+    }
+
+    // Type narrowing - non-array type (string) returns never
+    const stringValue: string = "hello";
+    if (isNonEmptyArray(stringValue)) {
+      const _check: unknown[] = stringValue;
+      throw new Error("Unreachable");
+    } else {
+      const _check: string = stringValue;
+      expect(_check).toBe("hello");
     }
   });
 
@@ -281,6 +347,16 @@ describe("primitive.ts", () => {
     const tuple: [string, number] = ["a", 1];
     const result4: [string, number] = asArray(tuple);
     expect(result4).toBe(tuple);
+
+    // Type narrowing - unknown input returns unknown[]
+    const unknownValue: unknown = ["a", "b"];
+    const result5: unknown[] = asArray(unknownValue);
+    expect(result5).toEqual(["a", "b"]);
+
+    // Type narrowing - non-array type (string) returns unknown[]
+    const stringValue: string = "hello";
+    const result6: unknown[] = asArray(stringValue);
+    expect(result6).toEqual([]);
   });
 
   it("toNonEmptyArray", () => {
@@ -318,6 +394,16 @@ describe("primitive.ts", () => {
       const _check: [string, number] = result4;
       expect(_check).toBe(tuple);
     }
+
+    // Type narrowing - unknown input returns unknown[] | undefined
+    const unknownValue: unknown = ["a", "b"];
+    const result5: unknown[] | undefined = toNonEmptyArray(unknownValue);
+    expect(result5).toEqual(["a", "b"]);
+
+    // Type narrowing - non-array type (string) returns unknown[] | undefined
+    const stringValue: string = "hello";
+    const result6: unknown[] | undefined = toNonEmptyArray(stringValue);
+    expect(result6).toBe(undefined);
   });
 
   it("isObject", () => {

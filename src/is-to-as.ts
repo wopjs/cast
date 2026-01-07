@@ -57,20 +57,21 @@ export const isNonEmptyString = (x: unknown): x is string => isString(x) && x !=
 /** Returns `x` if `x` is a string and not empty, otherwise returns `undefined`. */
 export const toNonEmptyString = (x: unknown): string | _ => (isNonEmptyString(x) ? x : _);
 
-export const isArray = Array.isArray as <T>(x: T) => x is Extract<T, readonly unknown[]>;
+type ExtractArray<T> = T extends readonly unknown[] ? T : unknown[];
+
+export const isArray = Array.isArray;
 
 /** Returns `x` if `x` is an array. */
-export const toArray = <T>(x: T): Extract<T, readonly unknown[]> | undefined => (isArray(x) ? x : _);
+export const toArray = <T>(x: T): ExtractArray<T> | _ => (isArray(x) ? (x as ExtractArray<T>) : _);
 
 /** Returns `true` if `x` is an array and has at least one element. */
-export const isNonEmptyArray = <T>(x: T): x is Extract<T, readonly unknown[]> => isArray(x) && x.length > 0;
+export const isNonEmptyArray = (x: any): x is any[] => isArray(x) && x.length > 0;
 
 /** Returns `x` if `x` is an array and has at least one element, otherwise returns `undefined`. */
-export const toNonEmptyArray = <T>(x: T): Extract<T, readonly unknown[]> | _ => (isNonEmptyArray(x) ? x : _);
+export const toNonEmptyArray = <T>(x: T): ExtractArray<T> | _ => (isNonEmptyArray(x) ? (x as ExtractArray<T>) : _);
 
 /** Returns `x` if `x` is an array, otherwise returns `[]` (empty array). */
-export const asArray = <T>(x: T): Extract<T, readonly unknown[]> =>
-  isArray(x) ? x : ([] as Extract<T, readonly unknown[]>);
+export const asArray = <T>(x: T): ExtractArray<T> => (isArray(x) ? (x as ExtractArray<T>) : ([] as ExtractArray<T>));
 
 export interface PlainObject {
   [key: PropertyKey]: unknown;
