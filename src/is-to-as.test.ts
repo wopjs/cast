@@ -20,6 +20,7 @@ import {
   print,
   isArray,
   toArray,
+  isNonEmptyArray,
   asArray,
   toNonEmptyArray,
   isObject,
@@ -151,21 +152,172 @@ describe("primitive.ts", () => {
   it("isArray", () => {
     expect(isArray([])).toBe(true);
     expect(isArray({})).toBe(false);
+
+    // Type narrowing - preserves array type
+    const stringArr: string[] = ["a", "b"];
+    if (isArray(stringArr)) {
+      const _check: string[] = stringArr;
+      expect(_check).toBe(stringArr);
+    }
+
+    // Type narrowing - extracts array from union
+    const unionValue: string | string[] = ["a"];
+    if (isArray(unionValue)) {
+      const _check: string[] = unionValue;
+      expect(_check).toBe(unionValue);
+    }
+
+    // Type narrowing - preserves readonly array
+    const readonlyArr: readonly number[] = [1, 2];
+    if (isArray(readonlyArr)) {
+      const _check: readonly number[] = readonlyArr;
+      expect(_check).toBe(readonlyArr);
+    }
+
+    // Type narrowing - preserves tuple
+    const tuple: [string, number] = ["a", 1];
+    if (isArray(tuple)) {
+      const _check: [string, number] = tuple;
+      expect(_check).toBe(tuple);
+    }
   });
 
   it("toArray", () => {
     expect(toArray([])).toEqual([]);
     expect(toArray({})).toBe(undefined);
+
+    // Type narrowing - preserves array type
+    const stringArr: string[] = ["a", "b"];
+    const result1 = toArray(stringArr);
+    if (result1) {
+      const _check: string[] = result1;
+      expect(_check).toBe(stringArr);
+    }
+
+    // Type narrowing - extracts array from union
+    const unionValue: string | string[] = ["a"];
+    const result2 = toArray(unionValue);
+    if (result2) {
+      const _check: string[] = result2;
+      expect(_check).toBe(unionValue);
+    }
+
+    // Type narrowing - preserves readonly array
+    const readonlyArr: readonly number[] = [1, 2];
+    const result3 = toArray(readonlyArr);
+    if (result3) {
+      const _check: readonly number[] = result3;
+      expect(_check).toBe(readonlyArr);
+    }
+
+    // Type narrowing - preserves tuple
+    const tuple: [string, number] = ["a", 1];
+    const result4 = toArray(tuple);
+    if (result4) {
+      const _check: [string, number] = result4;
+      expect(_check).toBe(tuple);
+    }
+  });
+
+  it("isNonEmptyArray", () => {
+    // Runtime behavior
+    expect(isNonEmptyArray([1])).toBe(true);
+    expect(isNonEmptyArray([1, 2, 3])).toBe(true);
+    expect(isNonEmptyArray([])).toBe(false);
+    expect(isNonEmptyArray({})).toBe(false);
+    expect(isNonEmptyArray(null)).toBe(false);
+    expect(isNonEmptyArray(undefined)).toBe(false);
+    expect(isNonEmptyArray("string")).toBe(false);
+
+    // Type narrowing - preserves array type
+    const stringArr: string[] = ["a", "b"];
+    if (isNonEmptyArray(stringArr)) {
+      const _check: string[] = stringArr;
+      expect(_check).toBe(stringArr);
+    }
+
+    // Type narrowing - extracts array from union
+    const unionValue: string | string[] = ["a"];
+    if (isNonEmptyArray(unionValue)) {
+      const _check: string[] = unionValue;
+      expect(_check).toBe(unionValue);
+    }
+
+    // Type narrowing - preserves readonly array
+    const readonlyArr: readonly number[] = [1, 2];
+    if (isNonEmptyArray(readonlyArr)) {
+      const _check: readonly number[] = readonlyArr;
+      expect(_check).toBe(readonlyArr);
+    }
+
+    // Type narrowing - preserves tuple
+    const tuple: [string, number] = ["a", 1];
+    if (isNonEmptyArray(tuple)) {
+      const _check: [string, number] = tuple;
+      expect(_check).toBe(tuple);
+    }
   });
 
   it("asArray", () => {
     expect(asArray([])).toEqual([]);
     expect(asArray({})).toEqual([]);
+
+    // Type narrowing - preserves array type
+    const stringArr: string[] = ["a", "b"];
+    const result1: string[] = asArray(stringArr);
+    expect(result1).toBe(stringArr);
+
+    // Type narrowing - extracts array from union
+    const unionValue: string | string[] = ["a"];
+    const result2: string[] = asArray(unionValue);
+    expect(result2).toEqual(["a"]);
+
+    // Type narrowing - preserves readonly array
+    const readonlyArr: readonly number[] = [1, 2];
+    const result3: readonly number[] = asArray(readonlyArr);
+    expect(result3).toBe(readonlyArr);
+
+    // Type narrowing - preserves tuple
+    const tuple: [string, number] = ["a", 1];
+    const result4: [string, number] = asArray(tuple);
+    expect(result4).toBe(tuple);
   });
 
   it("toNonEmptyArray", () => {
     expect(toNonEmptyArray([1])).toEqual([1]);
     expect(toNonEmptyArray([])).toBe(undefined);
+
+    // Type narrowing - preserves array type
+    const stringArr: string[] = ["a", "b"];
+    const result1 = toNonEmptyArray(stringArr);
+    if (result1) {
+      const _check: string[] = result1;
+      expect(_check).toBe(stringArr);
+    }
+
+    // Type narrowing - extracts array from union
+    const unionValue: string | string[] = ["a"];
+    const result2 = toNonEmptyArray(unionValue);
+    if (result2) {
+      const _check: string[] = result2;
+      expect(_check).toBe(unionValue);
+    }
+
+    // Type narrowing - preserves readonly array
+    const readonlyArr: readonly number[] = [1, 2];
+    const result3 = toNonEmptyArray(readonlyArr);
+    if (result3) {
+      const _check: readonly number[] = result3;
+      expect(_check).toBe(readonlyArr);
+    }
+
+    // Type narrowing - preserves tuple
+    const tuple: [string, number] = ["a", 1];
+    const result4 = toNonEmptyArray(tuple);
+    if (result4) {
+      const _check: [string, number] = result4;
+      expect(_check).toBe(tuple);
+    }
   });
 
   it("isObject", () => {
