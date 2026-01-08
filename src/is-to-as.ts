@@ -57,7 +57,7 @@ export const isNonEmptyString = (x: unknown): x is string => isString(x) && x !=
 /** Returns `x` if `x` is a string and not empty, otherwise returns `undefined`. */
 export const toNonEmptyString = (x: unknown): string | _ => (isNonEmptyString(x) ? x : _);
 
-type ExtractArray<T> = T extends readonly unknown[] ? T : unknown[];
+export type ExtractArray<T> = T extends readonly unknown[] ? T : unknown[];
 
 export const isArray = Array.isArray;
 
