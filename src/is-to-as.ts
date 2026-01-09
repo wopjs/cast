@@ -59,13 +59,18 @@ export const toNonEmptyString = (x: unknown): string | _ => (isNonEmptyString(x)
 
 export type ExtractArray<T> = T extends readonly unknown[] ? T : unknown[];
 
-export const isArray = Array.isArray;
+export interface IsArray {
+  (x: unknown): x is unknown[];
+  <T>(x: T): x is T extends readonly unknown[] ? T : never;
+}
+
+export const isArray: IsArray = Array.isArray;
 
 /** Returns `x` if `x` is an array. */
 export const toArray = <T>(x: T): ExtractArray<T> | _ => (isArray(x) ? (x as ExtractArray<T>) : _);
 
 /** Returns `true` if `x` is an array and has at least one element. */
-export const isNonEmptyArray = (x: any): x is any[] => isArray(x) && x.length > 0;
+export const isNonEmptyArray: IsArray = (x: unknown): x is unknown[] => isArray(x) && x.length > 0;
 
 /** Returns `x` if `x` is an array and has at least one element, otherwise returns `undefined`. */
 export const toNonEmptyArray = <T>(x: T): ExtractArray<T> | _ => (isNonEmptyArray(x) ? (x as ExtractArray<T>) : _);

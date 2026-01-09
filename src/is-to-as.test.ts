@@ -276,6 +276,7 @@ describe("primitive.ts", () => {
     // Type narrowing - extracts array from union
     const stringLikeValue: string | string[] = "a";
     if (isNonEmptyArray(stringLikeValue)) {
+      // @ts-expect-error Unreachable
       const _check: string[] = stringLikeValue;
       throw new Error("Unreachable");
     } else {

@@ -14,6 +14,7 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "lint": "eslint && prettier --check .",
+    "ts-check": "tsc --noEmit",
     "docs": "typedoc --options typedoc.json",
     "test": "vitest",
     "test:coverage": "vitest --coverage --coverage.include=src/**",
