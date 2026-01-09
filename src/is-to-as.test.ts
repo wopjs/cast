@@ -462,6 +462,8 @@ describe("primitive.ts", () => {
   it("toPlainObjectOf", () => {
     expect(toPlainObjectOf({ a: true, b: false }, isTrue)).toEqual({ a: true });
     expect(toPlainObjectOf({ a: 1, b: 2 }, isTrue)).toBe(undefined);
+    expect(toPlainObjectOf({ a: 1, b: 2 }, isTruthy)).toEqual({ a: 1, b: 2 });
+    expect(toPlainObjectOf(undefined, isTrue)).toBe(undefined);
   });
 
   it("toPlainObjectOfTrue", () => {

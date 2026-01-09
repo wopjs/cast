@@ -3,7 +3,7 @@
 [![Docs](https://img.shields.io/badge/Docs-read-%23fdf9f5)](https://wopjs.github.io/cast)
 [![Build Status](https://github.com/wopjs/cast/actions/workflows/build.yml/badge.svg)](https://github.com/wopjs/cast/actions/workflows/build.yml)
 [![npm-version](https://img.shields.io/npm/v/@wopjs/cast.svg)](https://www.npmjs.com/package/@wopjs/cast)
-[![Coverage Status](https://img.shields.io/coverallsCoverage/github/wopjs/cast)](https://coveralls.io/github/wopjs/cast)
+[![Coverage Status](https://wopjs.github.io/cast/coverage-badges/@wopjs/cast.svg)](https://wopjs.github.io/cast/coverage/)
 [![minified-size](https://img.shields.io/bundlephobia/minzip/@wopjs/cast)](https://bundlephobia.com/package/@wopjs/cast)
 
 Filter types from unknown.
