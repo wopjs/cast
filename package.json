@@ -1,6 +1,6 @@
 {
   "name": "@wopjs/cast",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Filter types from unknown",
   "repository": "wopjs/cast",
   "main": "./dist/index.js",
