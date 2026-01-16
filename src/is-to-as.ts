@@ -57,9 +57,9 @@ export const isNonEmptyString = (x: unknown): x is string => isString(x) && x !=
 /** Returns `x` if `x` is a string and not empty, otherwise returns `undefined`. */
 export const toNonEmptyString = (x: unknown): string | _ => (isNonEmptyString(x) ? x : _);
 
-export type NormalizeArrayType<T> = T extends readonly unknown[] ? T : unknown[];
+export type NormalizeArrayType<T> = [T, unknown[]][T extends any ? 0 : 1];
 
-export type ExtractArray<T> = NormalizeArrayType<Extract<T, readonly unknown[]>>;
+export type ExtractArray<T> = NormalizeArrayType<T extends readonly unknown[] ? T : never>;
 
 export interface IsArray {
   (x: unknown): x is unknown[];
@@ -103,14 +103,14 @@ export const asPlainObject = (x: unknown): PlainObject => (isPlainObject(x) ? x 
 export const isNonEmptyPlainObject = (x: unknown): x is PlainObject => isPlainObject(x) && Object.keys(x).length > 0;
 
 /** Returns `x` if `x` is a plain object and has at least one key. */
-export const toNonEmptyPlainObject = <T extends PlainObject>(x: T): T | _ => (isNonEmptyPlainObject(x) ? x : _);
+export const toNonEmptyPlainObject = <T extends PlainObject>(x: T | _): T | _ => (isNonEmptyPlainObject(x) ? x : _);
 
 /** Returns `true` if `x` is a plain object and has at least one key with non-undefined value. */
 export const isNonEmptyJSONObject = (x: unknown): x is PlainObject =>
   isPlainObject(x) && Object.values(x).some(isDefined);
 
 /** Returns `x` if `x` is a plain object and has at least one key with non-undefined value, otherwise returns `undefined`. */
-export const toNonEmptyJSONObject = <T extends PlainObject>(x: T): T | _ => (isNonEmptyJSONObject(x) ? x : _);
+export const toNonEmptyJSONObject = <T extends PlainObject>(x: T | _): T | _ => (isNonEmptyJSONObject(x) ? x : _);
 
 /**
  * Creates an object from `x` with keys `k` if `f(x[k])` returns `true`.

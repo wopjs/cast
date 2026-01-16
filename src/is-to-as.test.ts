@@ -466,17 +466,28 @@ describe("primitive.ts", () => {
     }
 
     {
-      // Type narrowing - unknown input returns unknown[] | undefined
+      // Type narrowing - unknown input returns unknown[]
       const arr = castType<unknown>(["a", "b"]);
-      const result: unknown[] | undefined = toNonEmptyArray(arr);
-      expect(result).toEqual(["a", "b"]);
+      let result = toNonEmptyArray(arr);
+      if (result) {
+        // rule out never
+        let check = result;
+        check = castType<unknown[]>(result);
+        expect(check).toEqual(["a", "b"]);
+      }
     }
 
     {
       // Type narrowing - non-array type (string) returns unknown[] | undefined
       const arr = castType<string>("hello");
-      const result: unknown[] | undefined = toNonEmptyArray(arr);
+      const result = toNonEmptyArray(arr);
       expect(result).toBe(undefined);
+      if (result) {
+        // rule out never
+        let _check = result;
+        _check = castType<unknown[]>(result);
+        throw new Error("Unreachable");
+      }
     }
   });
 
