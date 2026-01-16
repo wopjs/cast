@@ -144,46 +144,50 @@ if (isTruthy(val)) {
 | `toPlainObjectOfTrue` | Filter object to only `true` values        |
 | `print`               | Safely stringify any value for display     |
 
+### Return Helpers
+
+Constant functions useful for callbacks and default values:
+
+| Function             | Returns     |
+| -------------------- | ----------- |
+| `noop`               | `void`      |
+| `returnsUndefined`   | `undefined` |
+| `returnsNull`        | `null`      |
+| `returnsFalse`       | `false`     |
+| `returnsTrue`        | `true`      |
+| `returnsEmptyString` | `""`        |
+
 ## Usage Example
 
 ```ts
-import * as c from "@wopjs/cast";
+import {
+  asPlainObject,
+  asString,
+  toNumber,
+  asArray,
+  toNonEmptyPlainObject,
+  toPlainObjectOfTrue,
+  isNumber,
+  asNumber,
+} from "@wopjs/cast";
 
 // Parsing unknown API response
 function parseUser(data: unknown) {
-  const obj = c.asPlainObject(data);
+  const obj = asPlainObject(data);
   return {
-    name: c.asString(obj.name),
-    age: c.toNumber(obj.age), // undefined if not a number
-    tags: c.asArray(obj.tags),
-    settings: c.toNonEmptyPlainObject(obj.settings),
+    name: asString(obj.name),
+    age: toNumber(obj.age), // undefined if not a number
+    tags: asArray(obj.tags),
+    settings: toNonEmptyPlainObject(obj.settings),
   };
 }
 
 // Filtering object values
 const config = { debug: true, verbose: false, enabled: true };
-c.toPlainObjectOfTrue(config); // { debug: true, enabled: true }
+toPlainObjectOfTrue(config); // { debug: true, enabled: true }
 
 // Safe number handling
-c.isNumber(NaN); // false (NaN is excluded)
-c.asNumber(NaN); // 0 (safe fallback)
-c.asNumber("42"); // 0 (not coerced, use parseInt for that)
+isNumber(NaN); // false (NaN is excluded)
+asNumber(NaN); // 0 (safe fallback)
+asNumber("42"); // 0 (not coerced, use parseInt for that)
 ```
-
-## Publish New Version
-
-You can use [npm version](https://docs.npmjs.com/cli/v10/commands/npm-version) to bump version.
-
-```
-npm version patch
-```
-
-Push the tag to remote and CI will publish the new version to npm.
-
-```
-git push --follow-tags
-```
-
-### CI Publish
-
-If you want to publish the package in CI, you need to set the `NPM_TOKEN` secrets [in GitHub repository settings](https://docs.github.com/en/actions/security-for-github-actions/security-guides/using-secrets-in-github-actions#creating-secrets-for-a-repository). See how to [create a NPM access token](https://docs.npmjs.com/creating-and-viewing-access-tokens).
