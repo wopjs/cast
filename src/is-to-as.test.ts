@@ -26,6 +26,7 @@ import {
   asArray,
   toNonEmptyArray,
   isObject,
+  toObject,
   asObject,
   isPlainObject,
   toPlainObject,
@@ -598,6 +599,66 @@ describe("primitive.ts", () => {
     }
   });
 
+  it("toObject", () => {
+    expect(toObject({})).toEqual({});
+    expect(toObject([])).toEqual([]);
+    expect(toObject(null)).toBe(undefined);
+
+    {
+      // Type narrowing - preserves object type
+      const obj = castType<{ a: string }>({ a: "hello" });
+      const result = toObject(obj);
+      if (result) {
+        const check: { a: string } = result;
+        expect(check).toBe(obj);
+      }
+    }
+
+    {
+      // Type narrowing - extracts object from union
+      const obj = castType<string | { a: string }>({ a: "hello" });
+      const result = toObject(obj);
+      if (result) {
+        const check: { a: string } = result;
+        expect(check).toEqual({ a: "hello" });
+      }
+    }
+
+    {
+      // Type narrowing - preserves array (arrays are objects)
+      const arr = castType<string[]>(["a", "b"]);
+      const result = toObject(arr);
+      if (result) {
+        const check: string[] = result;
+        expect(check).toBe(arr);
+      }
+    }
+
+    {
+      // Type narrowing - unknown input returns object | undefined
+      const obj = castType<unknown>({ a: 1 });
+      const result: object | undefined = toObject(obj);
+      expect(result).toEqual({ a: 1 });
+    }
+
+    {
+      // Type narrowing - non-object type (string) returns undefined
+      const obj = castType<string>("hello");
+      const result: object | undefined = toObject(obj);
+      expect(result).toBe(undefined);
+    }
+
+    {
+      // Type narrowing - null | object union extracts object
+      const obj = castType<null | { x: number }>({ x: 42 });
+      const result = toObject(obj);
+      if (result) {
+        const check: { x: number } = result;
+        expect(check).toEqual({ x: 42 });
+      }
+    }
+  });
+
   it("asObject", () => {
     expect(asObject({})).toEqual({});
     expect(asObject([])).toEqual([]);
@@ -673,7 +734,7 @@ describe("primitive.ts", () => {
       // Type narrowing - null | object union extracts PlainObject
       const obj = castType<null | { x: number }>({ x: 42 });
       if (isPlainObject(obj)) {
-        const check: PlainObject = obj;
+        const check: { x: number } = obj;
         expect(check).toEqual({ x: 42 });
       }
     }
