@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>87/87</span>
+                <span class='fraction'>93/93</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>62/62</span>
+                <span class='fraction'>65/65</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>35/35</span>
+                <span class='fraction'>36/36</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>54/54</span>
+                <span class='fraction'>58/58</span>
             </div>
         
             
@@ -227,7 +227,17 @@
 <a name='L162'></a><a href='#L162'>162</a>
 <a name='L163'></a><a href='#L163'>163</a>
 <a name='L164'></a><a href='#L164'>164</a>
-<a name='L165'></a><a href='#L165'>165</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a>
+<a name='L167'></a><a href='#L167'>167</a>
+<a name='L168'></a><a href='#L168'>168</a>
+<a name='L169'></a><a href='#L169'>169</a>
+<a name='L170'></a><a href='#L170'>170</a>
+<a name='L171'></a><a href='#L171'>171</a>
+<a name='L172'></a><a href='#L172'>172</a>
+<a name='L173'></a><a href='#L173'>173</a>
+<a name='L174'></a><a href='#L174'>174</a>
+<a name='L175'></a><a href='#L175'>175</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -291,6 +301,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -331,15 +342,24 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -453,6 +473,7 @@ export const isNonEmptyString = (x: unknown): x is string =&gt; isString(x) &amp
 /** Returns `x` if `x` is a string and not empty, otherwise returns `undefined`. */
 export const toNonEmptyString = (x: unknown): string | _ =&gt; (isNonEmptyString(x) ? x : _);
 &nbsp;
+/** Extracts array type from `T`, or `unknown[]` if no array type found. */
 export type ExtractArray&lt;T&gt; = SetDefaultType&lt;Extract&lt;T, readonly unknown[]&gt;, unknown[]&gt;;
 &nbsp;
 export const isArray = Array.isArray as &lt;T&gt;(x: T) =&gt; x is ExtractArray&lt;T&gt;;
@@ -495,16 +516,25 @@ export const toPlainObject = &lt;T&gt;(x: T): ExtractPlainObject&lt;T&gt; | _ =&
 /** Returns `x` if `x` is a plain object, otherwise returns `{}` (empty object). */
 export const asPlainObject = &lt;T&gt;(x: T): ExtractPlainObject&lt;T&gt; =&gt; (isPlainObject(x) ? x : ({} as ExtractPlainObject&lt;T&gt;));
 &nbsp;
+const walkPlainObjectValues = &lt;T&gt;(x: T, predicate?: (x: unknown) =&gt; boolean): boolean =&gt; {
+  if (isPlainObject(x)) {
+    for (let key in x) {
+      if (Object.hasOwn(x, key) &amp;&amp; (!predicate || predicate(x[key]))) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+&nbsp;
 /** Returns `true` if `x` is a plain object and has at least one key. */
-export const isNonEmptyPlainObject = &lt;T&gt;(x: T): x is ExtractPlainObject&lt;T&gt; =&gt;
-  isPlainObject(x) &amp;&amp; Object.keys(x).length &gt; 0;
+export const isNonEmptyPlainObject = &lt;T&gt;(x: T): x is ExtractPlainObject&lt;T&gt; =&gt; walkPlainObjectValues(x);
 &nbsp;
 /** Returns `x` if `x` is a plain object and has at least one key. */
 export const toNonEmptyPlainObject = &lt;T&gt;(x: T): ExtractPlainObject&lt;T&gt; | _ =&gt; (isNonEmptyPlainObject(x) ? x : _);
 &nbsp;
 /** Returns `true` if `x` is a plain object and has at least one key with non-undefined value. */
-export const isNonEmptyJSONObject = &lt;T&gt;(x: T): x is ExtractPlainObject&lt;T&gt; =&gt;
-  isPlainObject(x) &amp;&amp; Object.values(x).some(isDefined);
+export const isNonEmptyJSONObject = &lt;T&gt;(x: T): x is ExtractPlainObject&lt;T&gt; =&gt; walkPlainObjectValues(x, isDefined);
 &nbsp;
 /** Returns `x` if `x` is a plain object and has at least one key with non-undefined value, otherwise returns `undefined`. */
 export const toNonEmptyJSONObject = &lt;T&gt;(x: T): ExtractPlainObject&lt;T&gt; | _ =&gt; (isNonEmptyJSONObject(x) ? x : _);
@@ -562,7 +592,7 @@ export const print = (x: unknown): string =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2026-01-16T13:12:28.329Z
+                at 2026-01-16T13:43:31.478Z
             </div>
         <script src="prettify.js"></script>
         <script>
