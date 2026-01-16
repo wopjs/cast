@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.9](https://github.com/wopjs/cast/compare/v0.1.8...v0.1.9) (2026-01-16)
+
+
+### Bug Fixes
+
+* **toArray:** cast any to any[] ([6144d5a](https://github.com/wopjs/cast/commit/6144d5a34d20c54eed3eb7e6c88ed1e456fa72c2))
+
 ## [0.1.8](https://github.com/wopjs/cast/compare/v0.1.7...v0.1.8) (2026-01-16)
 
 
