@@ -1,8 +1,8 @@
 const _ = undefined;
 export type _ = undefined;
 
-/** Map `never` to a different type */
-export type MapNeverTo<T, U> = [T, U][T extends any ? 0 : 1];
+/** Returns `U` if `T` is `never` or `any`, otherwise returns `T`. */
+export type SetDefaultType<T, U> = [T, U][T extends any ? (0 extends 1 & T ? 1 : 0) : 1];
 
 /** Returns `true` if `x` is not `undefined`. */
 export const isDefined = <T>(x: T | undefined): x is T => x !== _;
@@ -17,7 +17,7 @@ export const asTrue = (x: unknown): boolean => (x === true ? x : false);
 
 export type Falsy = false | null | undefined | 0 | "";
 
-export type ExtractFalsy<T> = MapNeverTo<Extract<T, Falsy>, Falsy>;
+export type ExtractFalsy<T> = SetDefaultType<Extract<T, Falsy>, Falsy>;
 
 /** Returns `true` if `Boolean(x)` is `false`. */
 export const isFalsy = <T>(x: T): x is ExtractFalsy<T> => !x;
@@ -60,7 +60,7 @@ export const isNonEmptyString = (x: unknown): x is string => isString(x) && x !=
 /** Returns `x` if `x` is a string and not empty, otherwise returns `undefined`. */
 export const toNonEmptyString = (x: unknown): string | _ => (isNonEmptyString(x) ? x : _);
 
-export type ExtractArray<T> = MapNeverTo<Extract<T, readonly unknown[]>, unknown[]>;
+export type ExtractArray<T> = SetDefaultType<Extract<T, readonly unknown[]>, unknown[]>;
 
 export const isArray = Array.isArray as <T>(x: T) => x is ExtractArray<T>;
 
@@ -76,7 +76,7 @@ export const isNonEmptyArray = <T>(x: T): x is ExtractArray<T> => isArray(x) && 
 /** Returns `x` if `x` is an array and has at least one element, otherwise returns `undefined`. */
 export const toNonEmptyArray = <T>(x: T): ExtractArray<T> | _ => (isNonEmptyArray(x) ? x : _);
 
-export type ExtractObject<T> = MapNeverTo<Extract<T, object>, object>;
+export type ExtractObject<T> = SetDefaultType<Extract<T, object>, object>;
 
 /** Returns `true` if `x` is an object (including array) and not null. */
 export const isObject = <T>(x: T): x is ExtractObject<T> => x !== null && typeof x === "object";
@@ -91,7 +91,7 @@ export interface PlainObject {
   [key: PropertyKey]: unknown;
 }
 
-export type ExtractPlainObject<T> = MapNeverTo<Exclude<Extract<T, object>, readonly unknown[]>, PlainObject>;
+export type ExtractPlainObject<T> = SetDefaultType<Exclude<Extract<T, object>, readonly unknown[]>, PlainObject>;
 
 /** Returns `true` if `x` is a plain object (shallow test), not `null` or array. */
 export const isPlainObject = <T>(x: T): x is ExtractPlainObject<T> => isObject(x) && !isArray(x);

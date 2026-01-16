@@ -304,6 +304,16 @@ describe("primitive.ts", () => {
         expect(check).toBe(undefined);
       }
     }
+
+    {
+      // Type narrowing - generic
+      const _fn = <T>(x: T): void => {
+        if (isArray(x)) {
+          const y: readonly any[] = x;
+          expect(Array.isArray(y)).toBe(true);
+        }
+      };
+    }
   });
 
   it("toArray", () => {
@@ -372,6 +382,15 @@ describe("primitive.ts", () => {
       const arr = castType<string>("hello");
       const result: unknown[] | undefined = toArray(arr);
       expect(result).toBe(undefined);
+      toArray(arr)?.map(x => x);
+    }
+
+    {
+      // Type narrowing - any returns any[]
+      const arr = castType<any>("hello");
+      const result: unknown[] | undefined = toArray(arr);
+      expect(result).toBe(undefined);
+      toArray(arr)?.map(x => x);
     }
   });
 
@@ -507,6 +526,7 @@ describe("primitive.ts", () => {
       const arr = castType<unknown>(["a", "b"]);
       const result: unknown[] = asArray(arr);
       expect(result).toEqual(["a", "b"]);
+      asArray(arr).map(x => x);
     }
 
     {
@@ -514,6 +534,7 @@ describe("primitive.ts", () => {
       const arr = castType<string>("hello");
       const result: unknown[] = asArray(arr);
       expect(result).toEqual([]);
+      asArray(arr).map(x => x);
     }
   });
 
