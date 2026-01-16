@@ -25,11 +25,11 @@ npm add @wopjs/cast
 
 Every type has up to three functions following a consistent naming pattern:
 
-| Pattern | Returns | Use Case |
-|---------|---------|----------|
-| `is*` | `boolean` | Type guards for conditional narrowing |
-| `to*` | `T \| undefined` | Optional values, composable with Option types |
-| `as*` | `T` | Always returns valid value with fallback |
+| Pattern | Returns          | Use Case                                      |
+| ------- | ---------------- | --------------------------------------------- |
+| `is*`   | `boolean`        | Type guards for conditional narrowing         |
+| `to*`   | `T \| undefined` | Optional values, composable with Option types |
+| `as*`   | `T`              | Always returns valid value with fallback      |
 
 ```ts
 import { isNumber, toNumber, asNumber } from "@wopjs/cast";
@@ -80,68 +80,68 @@ if (isTruthy(val)) {
 
 ### Booleans
 
-| Function | Description |
-|----------|-------------|
-| `isTrue` | Returns `true` if value is exactly `true` |
-| `toTrue` | Returns `true` or `undefined` |
-| `asTrue` | Returns `true` or `false` |
-| `isTruthy` | Returns `true` if `Boolean(x)` is `true` |
-| `toTruthy` | Returns truthy value or `undefined` |
-| `isFalsy` | Returns `true` if `Boolean(x)` is `false` |
+| Function    | Description                                  |
+| ----------- | -------------------------------------------- |
+| `isTrue`    | Returns `true` if value is exactly `true`    |
+| `toTrue`    | Returns `true` or `undefined`                |
+| `asTrue`    | Returns `true` or `false`                    |
+| `isTruthy`  | Returns `true` if `Boolean(x)` is `true`     |
+| `toTruthy`  | Returns truthy value or `undefined`          |
+| `isFalsy`   | Returns `true` if `Boolean(x)` is `false`    |
 | `isBoolean` | Returns `true` if value is `true` or `false` |
-| `toBoolean` | Returns boolean or `undefined` |
+| `toBoolean` | Returns boolean or `undefined`               |
 
 ### Numbers
 
-| Function | Description |
-|----------|-------------|
+| Function   | Description                                           |
+| ---------- | ----------------------------------------------------- |
 | `isNumber` | Returns `true` if value is a number (excluding `NaN`) |
-| `toNumber` | Returns number or `undefined` |
-| `asNumber` | Returns number or `0` |
+| `toNumber` | Returns number or `undefined`                         |
+| `asNumber` | Returns number or `0`                                 |
 
 ### Strings
 
-| Function | Description |
-|----------|-------------|
-| `isString` | Returns `true` if value is a string |
-| `toString` | Returns string or `undefined` |
-| `asString` | Returns string or `""` |
+| Function           | Description                                   |
+| ------------------ | --------------------------------------------- |
+| `isString`         | Returns `true` if value is a string           |
+| `toString`         | Returns string or `undefined`                 |
+| `asString`         | Returns string or `""`                        |
 | `isNonEmptyString` | Returns `true` if value is a non-empty string |
-| `toNonEmptyString` | Returns non-empty string or `undefined` |
+| `toNonEmptyString` | Returns non-empty string or `undefined`       |
 
 ### Arrays
 
-| Function | Description |
-|----------|-------------|
-| `isArray` | Type guard for arrays (preserves element types) |
-| `toArray` | Returns array or `undefined` |
-| `asArray` | Returns array or `[]` |
-| `isNonEmptyArray` | Type guard for non-empty arrays |
-| `toNonEmptyArray` | Returns non-empty array or `undefined` |
+| Function          | Description                                     |
+| ----------------- | ----------------------------------------------- |
+| `isArray`         | Type guard for arrays (preserves element types) |
+| `toArray`         | Returns array or `undefined`                    |
+| `asArray`         | Returns array or `[]`                           |
+| `isNonEmptyArray` | Type guard for non-empty arrays                 |
+| `toNonEmptyArray` | Returns non-empty array or `undefined`          |
 
 ### Objects
 
-| Function | Description |
-|----------|-------------|
-| `isObject` | Returns `true` for objects (including arrays, excluding `null`) |
-| `toObject` | Returns object or `undefined` |
-| `asObject` | Returns object or `{}` |
-| `isPlainObject` | Returns `true` for plain objects (excluding arrays) |
-| `toPlainObject` | Returns plain object or `undefined` |
-| `asPlainObject` | Returns plain object or `{}` |
-| `isNonEmptyPlainObject` | Returns `true` for objects with at least one key |
-| `toNonEmptyPlainObject` | Returns non-empty object or `undefined` |
-| `isNonEmptyJSONObject` | Returns `true` for objects with non-undefined values |
-| `toNonEmptyJSONObject` | Returns JSON object or `undefined` |
+| Function                | Description                                                     |
+| ----------------------- | --------------------------------------------------------------- |
+| `isObject`              | Returns `true` for objects (including arrays, excluding `null`) |
+| `toObject`              | Returns object or `undefined`                                   |
+| `asObject`              | Returns object or `{}`                                          |
+| `isPlainObject`         | Returns `true` for plain objects (excluding arrays)             |
+| `toPlainObject`         | Returns plain object or `undefined`                             |
+| `asPlainObject`         | Returns plain object or `{}`                                    |
+| `isNonEmptyPlainObject` | Returns `true` for objects with at least one key                |
+| `toNonEmptyPlainObject` | Returns non-empty object or `undefined`                         |
+| `isNonEmptyJSONObject`  | Returns `true` for objects with non-undefined values            |
+| `toNonEmptyJSONObject`  | Returns JSON object or `undefined`                              |
 
 ### Utilities
 
-| Function | Description |
-|----------|-------------|
-| `isDefined` | Returns `true` if value is not `undefined` |
-| `toPlainObjectOf` | Filter object values by type predicate |
-| `toPlainObjectOfTrue` | Filter object to only `true` values |
-| `print` | Safely stringify any value for display |
+| Function              | Description                                |
+| --------------------- | ------------------------------------------ |
+| `isDefined`           | Returns `true` if value is not `undefined` |
+| `toPlainObjectOf`     | Filter object values by type predicate     |
+| `toPlainObjectOfTrue` | Filter object to only `true` values        |
+| `print`               | Safely stringify any value for display     |
 
 ## Usage Example
 
@@ -164,8 +164,8 @@ const config = { debug: true, verbose: false, enabled: true };
 c.toPlainObjectOfTrue(config); // { debug: true, enabled: true }
 
 // Safe number handling
-c.isNumber(NaN);  // false (NaN is excluded)
-c.asNumber(NaN);  // 0 (safe fallback)
+c.isNumber(NaN); // false (NaN is excluded)
+c.asNumber(NaN); // 0 (safe fallback)
 c.asNumber("42"); // 0 (not coerced, use parseInt for that)
 ```
 
