@@ -1,7 +1,7 @@
 {
   "name": "@wopjs/cast",
   "version": "0.1.7",
-  "description": "Filter types from unknown",
+  "description": "Type-safe utilities for filtering and coercing unknown values in TypeScript.",
   "repository": "wopjs/cast",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -25,7 +25,14 @@
   },
   "keywords": [
     "typescript",
-    "coerce"
+    "type-guard",
+    "type-narrowing",
+    "type-safe",
+    "coerce",
+    "cast",
+    "unknown",
+    "validation",
+    "filter"
   ],
   "maintainers": [
     {
