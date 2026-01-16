@@ -37,6 +37,8 @@ import {
   toTruthy,
 } from ".";
 
+const castType = <T>(x: T): T => x;
+
 describe("primitive.ts", () => {
   it("isDefined", () => {
     expect(isDefined(1)).toBe(true);
@@ -153,46 +155,58 @@ describe("primitive.ts", () => {
     expect(isArray([])).toBe(true);
     expect(isArray({})).toBe(false);
 
-    // Type narrowing - preserves array type
-    const stringArr: string[] = ["a", "b"];
-    if (isArray(stringArr)) {
-      const _check: string[] = stringArr;
-      expect(_check).toBe(stringArr);
+    {
+      // Type narrowing - preserves array type
+      const arr = castType<string[]>(["a", "b"]);
+      if (isArray(arr)) {
+        const check: string[] = arr;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - extracts array from union
-    const unionValue: string | string[] = ["a"];
-    if (isArray(unionValue)) {
-      const _check: string[] = unionValue;
-      expect(_check).toBe(unionValue);
+    {
+      // Type narrowing - extracts array from union
+      const arr = castType<string | string[]>(["a"]);
+      if (isArray(arr)) {
+        const check: string[] = arr;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - preserves readonly array
-    const readonlyArr: readonly number[] = [1, 2];
-    if (isArray(readonlyArr)) {
-      const _check: readonly number[] = readonlyArr;
-      expect(_check).toBe(readonlyArr);
+    {
+      // Type narrowing - preserves readonly array
+      const arr = castType<readonly number[]>([1, 2]);
+      if (isArray(arr)) {
+        const check: readonly number[] = arr;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - preserves tuple
-    const tuple: [string, number] = ["a", 1];
-    if (isArray(tuple)) {
-      const _check: [string, number] = tuple;
-      expect(_check).toBe(tuple);
+    {
+      // Type narrowing - preserves tuple
+      const arr = castType<[string, number]>(["a", 1]);
+      if (isArray(arr)) {
+        const check: [string, number] = arr;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - unknown input returns any[] | undefined
-    const unknownValue: unknown = ["a", "b"];
-    if (isArray(unknownValue)) {
-      const _check: unknown[] = unknownValue;
-      expect(_check).toEqual(["a", "b"]);
+    {
+      // Type narrowing - unknown input returns any[] | undefined
+      const arr = castType<unknown>(["a", "b"]);
+      if (isArray(arr)) {
+        const check: unknown[] = arr;
+        expect(check).toEqual(["a", "b"]);
+      }
     }
 
-    // Type narrowing - non-array type (string) returns string & any[] | undefined
-    const stringValue: string = "hello";
-    if (isArray(stringValue)) {
-      const _check: unknown[] = stringValue;
-      expect(_check).toBe(undefined);
+    {
+      // Type narrowing - non-array type (string) returns string & any[] | undefined
+      const arr = castType<string>("hello");
+      if (isArray(arr)) {
+        const check: unknown[] = arr;
+        expect(check).toBe(undefined);
+      }
     }
   });
 
@@ -200,47 +214,69 @@ describe("primitive.ts", () => {
     expect(toArray([])).toEqual([]);
     expect(toArray({})).toBe(undefined);
 
-    // Type narrowing - preserves array type
-    const stringArr: string[] = ["a", "b"];
-    const result1 = toArray(stringArr);
-    if (result1) {
-      const _check: string[] = result1;
-      expect(_check).toBe(stringArr);
+    {
+      // Type narrowing - preserves array type
+      const arr = castType<string[]>(["a", "b"]);
+      const result = toArray(arr);
+      if (result) {
+        const check: string[] = result;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - extracts array from union
-    const unionValue: string | string[] = ["a"];
-    const result2 = toArray(unionValue);
-    if (result2) {
-      const _check: string[] = result2;
-      expect(_check).toBe(unionValue);
+    {
+      // Type narrowing - extracts array from union
+      const arr = castType<string | string[]>(["a"]);
+      const result = toArray(arr);
+      if (result) {
+        const check: string[] = result;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - preserves readonly array
-    const readonlyArr: readonly number[] = [1, 2];
-    const result3 = toArray(readonlyArr);
-    if (result3) {
-      const _check: readonly number[] = result3;
-      expect(_check).toBe(readonlyArr);
+    {
+      // Type narrowing - extracts array from array | undefined union
+      const arr = castType<string[] | undefined>(["a"]);
+      const result = toArray(arr);
+      if (result) {
+        const check: string[] = result;
+        expect(check).toEqual(["a"]);
+      }
     }
 
-    // Type narrowing - preserves tuple
-    const tuple: [string, number] = ["a", 1];
-    const result4 = toArray(tuple);
-    if (result4) {
-      const _check: [string, number] = result4;
-      expect(_check).toBe(tuple);
+    {
+      // Type narrowing - preserves readonly array
+      const arr = castType<readonly number[]>([1, 2]);
+      const result = toArray(arr);
+      if (result) {
+        const check: readonly number[] = result;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - unknown input returns unknown[] | undefined
-    const unknownValue: unknown = ["a", "b"];
-    const result5: unknown[] | undefined = toArray(unknownValue);
-    expect(result5).toEqual(["a", "b"]);
+    {
+      // Type narrowing - preserves tuple
+      const arr = castType<[string, number]>(["a", 1]);
+      const result = toArray(arr);
+      if (result) {
+        const check: [string, number] = result;
+        expect(check).toBe(arr);
+      }
+    }
 
-    // Type narrowing - non-array type (string) returns unknown[] | undefined
-    const stringValue: string = "hello";
-    const result6: unknown[] | undefined = toArray(stringValue);
-    expect(result6).toBe(undefined);
+    {
+      // Type narrowing - unknown input returns unknown[] | undefined
+      const arr = castType<unknown>(["a", "b"]);
+      const result: unknown[] | undefined = toArray(arr);
+      expect(result).toEqual(["a", "b"]);
+    }
+
+    {
+      // Type narrowing - non-array type (string) returns unknown[] | undefined
+      const arr = castType<string>("hello");
+      const result: unknown[] | undefined = toArray(arr);
+      expect(result).toBe(undefined);
+    }
   });
 
   it("isNonEmptyArray", () => {
@@ -253,75 +289,88 @@ describe("primitive.ts", () => {
     expect(isNonEmptyArray(undefined)).toBe(false);
     expect(isNonEmptyArray("string")).toBe(false);
 
-    // Type narrowing - preserves array type
-    const stringArr: string[] = ["a", "b"];
-    if (isNonEmptyArray(stringArr)) {
-      const _check: string[] = stringArr;
-      expect(_check).toBe(stringArr);
-    } else {
-      const _check: never = stringArr;
-      throw new Error("Unreachable");
+    {
+      // Type narrowing - preserves array type
+      const arr = castType<string[]>(["a", "b"]);
+      if (isNonEmptyArray(arr)) {
+        const check: string[] = arr;
+        expect(check).toBe(arr);
+      } else {
+        const _check: never = arr;
+        throw new Error("Unreachable");
+      }
     }
 
-    // Type narrowing - extracts array from union
-    const unionValue: string | string[] = ["a"];
-    if (isNonEmptyArray(unionValue)) {
-      const _check: string[] = unionValue;
-      expect(_check).toBe(unionValue);
-    } else {
-      const _check: string = unionValue;
-      throw new Error("Unreachable");
+    {
+      // Type narrowing - extracts array from union
+      const arr = castType<string | string[]>(["a"]);
+      if (isNonEmptyArray(arr)) {
+        const check: string[] = arr;
+        expect(check).toBe(arr);
+      } else {
+        const _check: string = arr;
+        throw new Error("Unreachable");
+      }
     }
 
-    // Type narrowing - extracts array from union
-    const stringLikeValue: string | string[] = "a";
-    if (isNonEmptyArray(stringLikeValue)) {
-      // @ts-expect-error Unreachable
-      const _check: string[] = stringLikeValue;
-      throw new Error("Unreachable");
-    } else {
-      const _check: string = stringLikeValue;
-      expect(_check).toBe(stringLikeValue);
+    {
+      // Type narrowing - extracts array from union
+      const arr = castType<string | string[]>("a");
+      if (isNonEmptyArray(arr)) {
+        const _check: string[] = arr;
+        throw new Error("Unreachable");
+      } else {
+        const check: string = arr;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - preserves readonly array
-    const readonlyArr: readonly number[] = [1, 2];
-    if (isNonEmptyArray(readonlyArr)) {
-      const _check: readonly number[] = readonlyArr;
-      expect(_check).toBe(readonlyArr);
-    } else {
-      const _check: readonly number[] = readonlyArr;
-      throw new Error("Unreachable");
+    {
+      // Type narrowing - preserves readonly array
+      const arr = castType<readonly number[]>([1, 2]);
+      if (isNonEmptyArray(arr)) {
+        const check: readonly number[] = arr;
+        expect(check).toBe(arr);
+      } else {
+        const _check: readonly number[] = arr;
+        throw new Error("Unreachable");
+      }
     }
 
-    // Type narrowing - preserves tuple
-    const tuple: [string, number] = ["a", 1];
-    if (isNonEmptyArray(tuple)) {
-      const _check: [string, number] = tuple;
-      expect(_check).toBe(tuple);
-    } else {
-      const _check: never = tuple;
-      throw new Error("Unreachable");
+    {
+      // Type narrowing - preserves tuple
+      const arr = castType<[string, number]>(["a", 1]);
+      if (isNonEmptyArray(arr)) {
+        const check: [string, number] = arr;
+        expect(check).toBe(arr);
+      } else {
+        const _check: never = arr;
+        throw new Error("Unreachable");
+      }
     }
 
-    // Type narrowing - unknown input returns unknown[]
-    const unknownValue: unknown = ["a", "b"];
-    if (isNonEmptyArray(unknownValue)) {
-      const _check: unknown[] = unknownValue;
-      expect(_check).toEqual(["a", "b"]);
-    } else {
-      const _check: unknown = unknownValue;
-      throw new Error("Unreachable");
+    {
+      // Type narrowing - unknown input returns unknown[]
+      const arr = castType<unknown>(["a", "b"]);
+      if (isNonEmptyArray(arr)) {
+        const check: unknown[] = arr;
+        expect(check).toEqual(["a", "b"]);
+      } else {
+        const _check: unknown = arr;
+        throw new Error("Unreachable");
+      }
     }
 
-    // Type narrowing - non-array type (string) returns never
-    const stringValue: string = "hello";
-    if (isNonEmptyArray(stringValue)) {
-      const _check: unknown[] = stringValue;
-      throw new Error("Unreachable");
-    } else {
-      const _check: string = stringValue;
-      expect(_check).toBe("hello");
+    {
+      // Type narrowing - non-array type (string) returns never
+      const arr = castType<string>("hello");
+      if (isNonEmptyArray(arr)) {
+        const _check: unknown[] = arr;
+        throw new Error("Unreachable");
+      } else {
+        const check: string = arr;
+        expect(check).toBe("hello");
+      }
     }
   });
 
@@ -329,82 +378,106 @@ describe("primitive.ts", () => {
     expect(asArray([])).toEqual([]);
     expect(asArray({})).toEqual([]);
 
-    // Type narrowing - preserves array type
-    const stringArr: string[] = ["a", "b"];
-    const result1: string[] = asArray(stringArr);
-    expect(result1).toBe(stringArr);
+    {
+      // Type narrowing - preserves array type
+      const arr = castType<string[]>(["a", "b"]);
+      const result: string[] = asArray(arr);
+      expect(result).toBe(arr);
+    }
 
-    // Type narrowing - extracts array from union
-    const unionValue: string | string[] = ["a"];
-    const result2: string[] = asArray(unionValue);
-    expect(result2).toEqual(["a"]);
+    {
+      // Type narrowing - extracts array from union
+      const arr = castType<string | string[]>(["a"]);
+      const result: string[] = asArray(arr);
+      expect(result).toEqual(["a"]);
+    }
 
-    // Type narrowing - preserves readonly array
-    const readonlyArr: readonly number[] = [1, 2];
-    const result3: readonly number[] = asArray(readonlyArr);
-    expect(result3).toBe(readonlyArr);
+    {
+      // Type narrowing - preserves readonly array
+      const arr = castType<readonly number[]>([1, 2]);
+      const result: readonly number[] = asArray(arr);
+      expect(result).toBe(arr);
+    }
 
-    // Type narrowing - preserves tuple
-    const tuple: [string, number] = ["a", 1];
-    const result4: [string, number] = asArray(tuple);
-    expect(result4).toBe(tuple);
+    {
+      // Type narrowing - preserves tuple
+      const arr = castType<[string, number]>(["a", 1]);
+      const result: [string, number] = asArray(arr);
+      expect(result).toBe(arr);
+    }
 
-    // Type narrowing - unknown input returns unknown[]
-    const unknownValue: unknown = ["a", "b"];
-    const result5: unknown[] = asArray(unknownValue);
-    expect(result5).toEqual(["a", "b"]);
+    {
+      // Type narrowing - unknown input returns unknown[]
+      const arr = castType<unknown>(["a", "b"]);
+      const result: unknown[] = asArray(arr);
+      expect(result).toEqual(["a", "b"]);
+    }
 
-    // Type narrowing - non-array type (string) returns unknown[]
-    const stringValue: string = "hello";
-    const result6: unknown[] = asArray(stringValue);
-    expect(result6).toEqual([]);
+    {
+      // Type narrowing - non-array type (string) returns unknown[]
+      const arr = castType<string>("hello");
+      const result: unknown[] = asArray(arr);
+      expect(result).toEqual([]);
+    }
   });
 
   it("toNonEmptyArray", () => {
     expect(toNonEmptyArray([1])).toEqual([1]);
     expect(toNonEmptyArray([])).toBe(undefined);
 
-    // Type narrowing - preserves array type
-    const stringArr: string[] = ["a", "b"];
-    const result1 = toNonEmptyArray(stringArr);
-    if (result1) {
-      const _check: string[] = result1;
-      expect(_check).toBe(stringArr);
+    {
+      // Type narrowing - preserves array type
+      const arr = castType<string[]>(["a", "b"]);
+      const result = toNonEmptyArray(arr);
+      if (result) {
+        const check: string[] = result;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - extracts array from union
-    const unionValue: string | string[] = ["a"];
-    const result2 = toNonEmptyArray(unionValue);
-    if (result2) {
-      const _check: string[] = result2;
-      expect(_check).toBe(unionValue);
+    {
+      // Type narrowing - extracts array from union
+      const arr = castType<string | string[]>(["a"]);
+      const result = toNonEmptyArray(arr);
+      if (result) {
+        const check: string[] = result;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - preserves readonly array
-    const readonlyArr: readonly number[] = [1, 2];
-    const result3 = toNonEmptyArray(readonlyArr);
-    if (result3) {
-      const _check: readonly number[] = result3;
-      expect(_check).toBe(readonlyArr);
+    {
+      // Type narrowing - preserves readonly array
+      const arr = castType<readonly number[]>([1, 2]);
+      const result = toNonEmptyArray(arr);
+      if (result) {
+        const check: readonly number[] = result;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - preserves tuple
-    const tuple: [string, number] = ["a", 1];
-    const result4 = toNonEmptyArray(tuple);
-    if (result4) {
-      const _check: [string, number] = result4;
-      expect(_check).toBe(tuple);
+    {
+      // Type narrowing - preserves tuple
+      const arr = castType<[string, number]>(["a", 1]);
+      const result = toNonEmptyArray(arr);
+      if (result) {
+        const check: [string, number] = result;
+        expect(check).toBe(arr);
+      }
     }
 
-    // Type narrowing - unknown input returns unknown[] | undefined
-    const unknownValue: unknown = ["a", "b"];
-    const result5: unknown[] | undefined = toNonEmptyArray(unknownValue);
-    expect(result5).toEqual(["a", "b"]);
+    {
+      // Type narrowing - unknown input returns unknown[] | undefined
+      const arr = castType<unknown>(["a", "b"]);
+      const result: unknown[] | undefined = toNonEmptyArray(arr);
+      expect(result).toEqual(["a", "b"]);
+    }
 
-    // Type narrowing - non-array type (string) returns unknown[] | undefined
-    const stringValue: string = "hello";
-    const result6: unknown[] | undefined = toNonEmptyArray(stringValue);
-    expect(result6).toBe(undefined);
+    {
+      // Type narrowing - non-array type (string) returns unknown[] | undefined
+      const arr = castType<string>("hello");
+      const result: unknown[] | undefined = toNonEmptyArray(arr);
+      expect(result).toBe(undefined);
+    }
   });
 
   it("isObject", () => {
