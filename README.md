@@ -88,6 +88,7 @@ if (isTruthy(val)) {
 | `isTruthy`  | Returns `true` if `Boolean(x)` is `true`     |
 | `toTruthy`  | Returns truthy value or `undefined`          |
 | `isFalsy`   | Returns `true` if `Boolean(x)` is `false`    |
+| `toFalsy`   | Returns falsy value or `undefined`           |
 | `isBoolean` | Returns `true` if value is `true` or `false` |
 | `toBoolean` | Returns boolean or `undefined`               |
 

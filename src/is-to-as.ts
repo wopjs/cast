@@ -22,6 +22,9 @@ export type ExtractFalsy<T> = MapNeverTo<Extract<T, Falsy>, Falsy>;
 /** Returns `true` if `Boolean(x)` is `false`. */
 export const isFalsy = <T>(x: T): x is ExtractFalsy<T> => !x;
 
+/** Returns `x` if `Boolean(x)` is `false`, otherwise returns `undefined`. */
+export const toFalsy = <T>(x: T): ExtractFalsy<T> | _ => (isFalsy(x) ? x : _);
+
 /** Returns `true` if `Boolean(x)` is `true`. */
 export const isTruthy = <T>(x: T): x is Exclude<T, Falsy> => !!x;
 

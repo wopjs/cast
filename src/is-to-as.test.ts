@@ -9,6 +9,7 @@ import {
   asTrue,
   isTruthy,
   isFalsy,
+  toFalsy,
   isBoolean,
   toBoolean,
   isNumber,
@@ -144,6 +145,44 @@ describe("primitive.ts", () => {
       if (isFalsy(val)) {
         const check: false = val;
         expect(check).toBe(false);
+      }
+    }
+  });
+
+  it("toFalsy", () => {
+    expect(toFalsy(false)).toBe(false);
+    expect(toFalsy(null)).toBe(null);
+    expect(toFalsy(undefined)).toBe(undefined);
+    expect(toFalsy(0)).toBe(0);
+    expect(toFalsy("")).toBe("");
+    expect(toFalsy(true)).toBe(undefined);
+    expect(toFalsy(1)).toBe(undefined);
+    expect(toFalsy("hello")).toBe(undefined);
+
+    {
+      // Type narrowing - extracts falsy from union
+      const val = castType<string | null | undefined>(null);
+      const result = toFalsy(val);
+      if (result !== undefined) {
+        const check: "" | null = result;
+        expect(check).toBe(null);
+      }
+    }
+
+    {
+      // Type narrowing - returns undefined for truthy value
+      const val = castType<string | null>("hello");
+      const result: "" | null | undefined = toFalsy(val);
+      expect(result).toBe(undefined);
+    }
+
+    {
+      // Type narrowing - extracts falsy from number union
+      const val = castType<number | false>(0);
+      const result = toFalsy(val);
+      if (result !== undefined) {
+        const check: 0 | false = result;
+        expect(check).toBe(0);
       }
     }
   });
