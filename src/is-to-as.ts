@@ -60,6 +60,7 @@ export const isNonEmptyString = (x: unknown): x is string => isString(x) && x !=
 /** Returns `x` if `x` is a string and not empty, otherwise returns `undefined`. */
 export const toNonEmptyString = (x: unknown): string | _ => (isNonEmptyString(x) ? x : _);
 
+/** Extracts array type from `T`, or `unknown[]` if no array type found. */
 export type ExtractArray<T> = SetDefaultType<Extract<T, readonly unknown[]>, unknown[]>;
 
 export const isArray = Array.isArray as <T>(x: T) => x is ExtractArray<T>;
@@ -102,16 +103,25 @@ export const toPlainObject = <T>(x: T): ExtractPlainObject<T> | _ => (isPlainObj
 /** Returns `x` if `x` is a plain object, otherwise returns `{}` (empty object). */
 export const asPlainObject = <T>(x: T): ExtractPlainObject<T> => (isPlainObject(x) ? x : ({} as ExtractPlainObject<T>));
 
+const walkPlainObjectValues = <T>(x: T, predicate?: (x: unknown) => boolean): boolean => {
+  if (isPlainObject(x)) {
+    for (let key in x) {
+      if (Object.hasOwn(x, key) && (!predicate || predicate(x[key]))) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
 /** Returns `true` if `x` is a plain object and has at least one key. */
-export const isNonEmptyPlainObject = <T>(x: T): x is ExtractPlainObject<T> =>
-  isPlainObject(x) && Object.keys(x).length > 0;
+export const isNonEmptyPlainObject = <T>(x: T): x is ExtractPlainObject<T> => walkPlainObjectValues(x);
 
 /** Returns `x` if `x` is a plain object and has at least one key. */
 export const toNonEmptyPlainObject = <T>(x: T): ExtractPlainObject<T> | _ => (isNonEmptyPlainObject(x) ? x : _);
 
 /** Returns `true` if `x` is a plain object and has at least one key with non-undefined value. */
-export const isNonEmptyJSONObject = <T>(x: T): x is ExtractPlainObject<T> =>
-  isPlainObject(x) && Object.values(x).some(isDefined);
+export const isNonEmptyJSONObject = <T>(x: T): x is ExtractPlainObject<T> => walkPlainObjectValues(x, isDefined);
 
 /** Returns `x` if `x` is a plain object and has at least one key with non-undefined value, otherwise returns `undefined`. */
 export const toNonEmptyJSONObject = <T>(x: T): ExtractPlainObject<T> | _ => (isNonEmptyJSONObject(x) ? x : _);
