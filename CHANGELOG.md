@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.8](https://github.com/wopjs/cast/compare/v0.1.7...v0.1.8) (2026-01-16)
+
+
+### Features
+
+* add toFalsy ([6c90353](https://github.com/wopjs/cast/commit/6c903539958b918552a1025b2c3571f83b486ae6))
+* add toObject function with type narrowing tests ([970115c](https://github.com/wopjs/cast/commit/970115c6e512414f0a35a26f7bc04e6bff1665dd))
+
+
+### Bug Fixes
+
+* extra array type ([dc689dd](https://github.com/wopjs/cast/commit/dc689dd3189844cd225d48f9b2b0ddc2d63de159))
+
 ## [0.1.7](https://github.com/wopjs/cast/compare/v0.1.6...v0.1.7) (2026-01-16)
 
 
