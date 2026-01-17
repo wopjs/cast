@@ -1,6 +1,6 @@
 {
   "name": "@wopjs/cast",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Type-safe utilities for filtering and coercing unknown values in TypeScript.",
   "repository": "wopjs/cast",
   "main": "./dist/index.js",

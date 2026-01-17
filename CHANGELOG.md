@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.11](https://github.com/wopjs/cast/compare/v0.1.10...v0.1.11) (2026-01-17)
+
+
+### Bug Fixes
+
+* refine isDefined type to exclude undefined from type ([b9abdc1](https://github.com/wopjs/cast/commit/b9abdc1ace15d952a9612c1fb24e71a97509820c))
+
 ## [0.1.10](https://github.com/wopjs/cast/compare/v0.1.9...v0.1.10) (2026-01-16)
 
 ## [0.1.9](https://github.com/wopjs/cast/compare/v0.1.8...v0.1.9) (2026-01-16)
