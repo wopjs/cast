@@ -5,7 +5,7 @@ export type _ = undefined;
 export type SetDefaultType<T, U> = [T, U][T extends any ? (0 extends 1 & T ? 1 : 0) : 1];
 
 /** Returns `true` if `x` is not `undefined`. */
-export const isDefined = <T>(x: T | undefined): x is T => x !== _;
+export const isDefined = <T>(x: T | _): x is Exclude<T, _> => x !== _;
 
 export const isTrue = (x: unknown): x is true => x === true;
 

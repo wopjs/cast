@@ -48,6 +48,33 @@ describe("primitive.ts", () => {
   it("isDefined", () => {
     expect(isDefined(1)).toBe(true);
     expect(isDefined(undefined)).toBe(false);
+
+    {
+      // Type narrowing - excludes undefined from type
+      const val = castType<string>("hello");
+      if (isDefined(val)) {
+        const check: string = val;
+        expect(check).toBe("hello");
+      }
+    }
+
+    {
+      // Type narrowing - excludes undefined from union
+      const val = castType<string | undefined>("hello");
+      if (isDefined(val)) {
+        const check: string = val;
+        expect(check).toBe("hello");
+      }
+    }
+
+    {
+      // Type narrowing - excludes undefined but keeps null
+      const val = castType<number | null | undefined>(42);
+      if (isDefined(val)) {
+        const check: number | null = val;
+        expect(check).toBe(42);
+      }
+    }
   });
 
   it("isTrue", () => {
