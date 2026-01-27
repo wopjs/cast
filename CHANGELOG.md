@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.12](https://github.com/wopjs/cast/compare/v0.1.11...v0.1.12) (2026-01-27)
+
+
+### Features
+
+* add inertFilterMap and inertFilter functions with lazy evaluation for array processing ([f1fb910](https://github.com/wopjs/cast/commit/f1fb9101a1e61d28e47c43841b16cf10f884ed48))
+
 ## [0.1.11](https://github.com/wopjs/cast/compare/v0.1.10...v0.1.11) (2026-01-17)
 
 
