@@ -1,16 +1,15 @@
-const _ = undefined;
-export type _ = undefined;
-
 /** Returns `U` if `T` is `never` or `any`, otherwise returns `T`. */
 export type SetDefaultType<T, U> = [T, U][T extends any ? (0 extends 1 & T ? 1 : 0) : 1];
 
+export type Defined<T> = Exclude<T, undefined>;
+
 /** Returns `true` if `x` is not `undefined`. */
-export const isDefined = <T>(x: T | _): x is Exclude<T, _> => x !== _;
+export const isDefined = <T>(x: T | undefined): x is Defined<T> => x !== undefined;
 
 export const isTrue = (x: unknown): x is true => x === true;
 
 /** Returns `true` if `x` is `true`, otherwise returns `undefined`. */
-export const toTrue = (x: unknown): true | _ => (x === true ? true : _);
+export const toTrue = (x: unknown): true | undefined => (x === true ? true : undefined);
 
 /** Returns `true` if `x` is `true`, otherwise returns `false`. */
 export const asTrue = (x: unknown): boolean => (x === true ? x : false);
@@ -23,24 +22,26 @@ export type ExtractFalsy<T> = SetDefaultType<Extract<T, Falsy>, Falsy>;
 export const isFalsy = <T>(x: T): x is ExtractFalsy<T> => !x;
 
 /** Returns `x` if `Boolean(x)` is `false`, otherwise returns `undefined`. */
-export const toFalsy = <T>(x: T): ExtractFalsy<T> | _ => (isFalsy(x) ? x : _);
+export const toFalsy = <T>(x: T): ExtractFalsy<T> | undefined => (isFalsy(x) ? x : undefined);
+
+export type Truthy<T> = Exclude<T, Falsy>;
 
 /** Returns `true` if `Boolean(x)` is `true`. */
-export const isTruthy = <T>(x: T): x is Exclude<T, Falsy> => !!x;
+export const isTruthy = <T>(x: T): x is Truthy<T> => !!x;
 
 /** Returns `x` if `Boolean(x)` is `true`, otherwise returns `undefined`. */
-export const toTruthy = <T>(x: T): Exclude<T, Falsy> | _ => (isTruthy(x) ? x : _);
+export const toTruthy = <T>(x: T): Truthy<T> | undefined => (isTruthy(x) ? x : undefined);
 
 export const isBoolean = (x: unknown): x is boolean => x === true || x === false;
 
 /** Returns `x` if `x` is `true` or `false`, otherwise returns `undefined`. */
-export const toBoolean = (x: unknown): boolean | _ => (isBoolean(x) ? x : _);
+export const toBoolean = (x: unknown): boolean | undefined => (isBoolean(x) ? x : undefined);
 
 /** Returns `true` if `x` is a number, returns `false` if `x` is `NaN` or other value. */
 export const isNumber = (x: unknown): x is number => typeof x === "number" && x === x;
 
 /** Returns `x` if `x` is a number, `NaN` and other value will be coerced to `undefined`. */
-export const toNumber = (x: unknown): number | _ => (isNumber(x) ? x : _);
+export const toNumber = (x: unknown): number | undefined => (isNumber(x) ? x : undefined);
 
 /** Returns `x` if `x` is a number, `NaN` and other value will be coerced to `0`. */
 export const asNumber = (x: unknown): number => (isNumber(x) ? x : 0);
@@ -49,7 +50,7 @@ export const asNumber = (x: unknown): number => (isNumber(x) ? x : 0);
 export const isString = (x: unknown): x is string => typeof x === "string";
 
 /** Returns `x` if `x` is a string, otherwise returns `undefined`. */
-export const toString = (x: unknown): string | _ => (isString(x) ? x : _);
+export const toString = (x: unknown): string | undefined => (isString(x) ? x : undefined);
 
 /** Returns `x` if `x` is a string, otherwise returns `''` (empty string). */
 export const asString = (x: unknown): string => (isString(x) ? x : "");
@@ -58,7 +59,7 @@ export const asString = (x: unknown): string => (isString(x) ? x : "");
 export const isNonEmptyString = (x: unknown): x is string => isString(x) && x !== "";
 
 /** Returns `x` if `x` is a string and not empty, otherwise returns `undefined`. */
-export const toNonEmptyString = (x: unknown): string | _ => (isNonEmptyString(x) ? x : _);
+export const toNonEmptyString = (x: unknown): string | undefined => (isNonEmptyString(x) ? x : undefined);
 
 /** Extracts array type from `T`, or `unknown[]` if no array type found. */
 export type ExtractArray<T> = SetDefaultType<Extract<T, readonly unknown[]>, unknown[]>;
@@ -66,7 +67,7 @@ export type ExtractArray<T> = SetDefaultType<Extract<T, readonly unknown[]>, unk
 export const isArray = Array.isArray as <T>(x: T) => x is ExtractArray<T>;
 
 /** Returns `x` if `x` is an array. */
-export const toArray = <T>(x: T): ExtractArray<T> | _ => (isArray(x) ? x : _);
+export const toArray = <T>(x: T): ExtractArray<T> | undefined => (isArray(x) ? x : undefined);
 
 /** Returns `x` if `x` is an array, otherwise returns `[]` (empty array). */
 export const asArray = <T>(x: T): ExtractArray<T> => (isArray(x) ? x : ([] as ExtractArray<T>));
@@ -75,7 +76,7 @@ export const asArray = <T>(x: T): ExtractArray<T> => (isArray(x) ? x : ([] as Ex
 export const isNonEmptyArray = <T>(x: T): x is ExtractArray<T> => isArray(x) && x.length > 0;
 
 /** Returns `x` if `x` is an array and has at least one element, otherwise returns `undefined`. */
-export const toNonEmptyArray = <T>(x: T): ExtractArray<T> | _ => (isNonEmptyArray(x) ? x : _);
+export const toNonEmptyArray = <T>(x: T): ExtractArray<T> | undefined => (isNonEmptyArray(x) ? x : undefined);
 
 export type ExtractObject<T> = SetDefaultType<Extract<T, object>, object>;
 
@@ -83,7 +84,7 @@ export type ExtractObject<T> = SetDefaultType<Extract<T, object>, object>;
 export const isObject = <T>(x: T): x is ExtractObject<T> => x !== null && typeof x === "object";
 
 /** Returns `x` if `x` is an object (including array). */
-export const toObject = <T>(x: T): ExtractObject<T> | _ => (isObject(x) ? x : _);
+export const toObject = <T>(x: T): ExtractObject<T> | undefined => (isObject(x) ? x : undefined);
 
 /** Returns `x` if `x` is an object (including array), otherwise returns `{}` (empty object). */
 export const asObject = <T>(x: T): ExtractObject<T> => (isObject(x) ? x : ({} as ExtractObject<T>));
@@ -98,7 +99,7 @@ export type ExtractPlainObject<T> = SetDefaultType<Exclude<Extract<T, object>, r
 export const isPlainObject = <T>(x: T): x is ExtractPlainObject<T> => isObject(x) && !isArray(x);
 
 /** Returns `x` if `x` is a plain object. */
-export const toPlainObject = <T>(x: T): ExtractPlainObject<T> | _ => (isPlainObject(x) ? x : _);
+export const toPlainObject = <T>(x: T): ExtractPlainObject<T> | undefined => (isPlainObject(x) ? x : undefined);
 
 /** Returns `x` if `x` is a plain object, otherwise returns `{}` (empty object). */
 export const asPlainObject = <T>(x: T): ExtractPlainObject<T> => (isPlainObject(x) ? x : ({} as ExtractPlainObject<T>));
@@ -118,13 +119,15 @@ const walkPlainObjectValues = <T>(x: T, predicate?: (x: unknown) => boolean): bo
 export const isNonEmptyPlainObject = <T>(x: T): x is ExtractPlainObject<T> => walkPlainObjectValues(x);
 
 /** Returns `x` if `x` is a plain object and has at least one key. */
-export const toNonEmptyPlainObject = <T>(x: T): ExtractPlainObject<T> | _ => (isNonEmptyPlainObject(x) ? x : _);
+export const toNonEmptyPlainObject = <T>(x: T): ExtractPlainObject<T> | undefined =>
+  isNonEmptyPlainObject(x) ? x : undefined;
 
 /** Returns `true` if `x` is a plain object and has at least one key with non-undefined value. */
 export const isNonEmptyJSONObject = <T>(x: T): x is ExtractPlainObject<T> => walkPlainObjectValues(x, isDefined);
 
 /** Returns `x` if `x` is a plain object and has at least one key with non-undefined value, otherwise returns `undefined`. */
-export const toNonEmptyJSONObject = <T>(x: T): ExtractPlainObject<T> | _ => (isNonEmptyJSONObject(x) ? x : _);
+export const toNonEmptyJSONObject = <T>(x: T): ExtractPlainObject<T> | undefined =>
+  isNonEmptyJSONObject(x) ? x : undefined;
 
 type ExtractPlainObjectValue<T> = ExtractPlainObject<T>[keyof ExtractPlainObject<T>];
 
@@ -135,12 +138,12 @@ type ExtractPlainObjectValue<T> = ExtractPlainObject<T>[keyof ExtractPlainObject
 export const toPlainObjectOf = <T, U extends ExtractPlainObjectValue<T>>(
   x: T,
   f: (v: ExtractPlainObjectValue<T>) => v is U
-): Record<PropertyKey, U> | _ => {
+): Record<PropertyKey, U> | undefined => {
   if (isPlainObject(x)) {
     let index = -1;
     let props = Object.keys(x);
     let length = props.length;
-    let result: Record<PropertyKey, U> | _;
+    let result: Record<PropertyKey, U> | undefined;
 
     while (++index < length) {
       let key = props[index] as keyof typeof x;
@@ -155,7 +158,7 @@ export const toPlainObjectOf = <T, U extends ExtractPlainObjectValue<T>>(
 };
 
 /** Filter props from object `x` whose values are `true`. */
-export const toPlainObjectOfTrue = (x: unknown): Record<PropertyKey, true> | _ => toPlainObjectOf(x, isTrue);
+export const toPlainObjectOfTrue = (x: unknown): Record<PropertyKey, true> | undefined => toPlainObjectOf(x, isTrue);
 
 /**
  * Returns `x` if `x` is string, otherwise returns `''` (empty string) if
