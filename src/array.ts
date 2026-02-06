@@ -119,8 +119,8 @@ export function inertFilter<T>(
 }
 
 export interface Coalesce {
-  <T>(arr: readonly T[]): readonly Truthy<T>[];
   <T>(arr: T[]): Truthy<T>[];
+  <T>(arr: readonly T[]): readonly Truthy<T>[];
 }
 
 /**
