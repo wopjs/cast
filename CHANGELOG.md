@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.13](https://github.com/wopjs/cast/compare/v0.1.12...v0.1.13) (2026-02-06)
+
+
+### Features
+
+* update Coalesce interface to support readonly arrays ([d63e0f0](https://github.com/wopjs/cast/commit/d63e0f0ac31d3363f1aa677ee5305435384110f7))
+
 ## [0.1.12](https://github.com/wopjs/cast/compare/v0.1.11...v0.1.12) (2026-01-27)
 
 
