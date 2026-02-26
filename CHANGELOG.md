@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.14](https://github.com/wopjs/cast/compare/v0.1.13...v0.1.14) (2026-02-26)
+
+
+### Features
+
+* add ExplicitOptional type to convert optional properties to required with undefined ([ceb04a5](https://github.com/wopjs/cast/commit/ceb04a5b49147ebda40c74a4680deebd8a47fba8))
+
 ## [0.1.13](https://github.com/wopjs/cast/compare/v0.1.12...v0.1.13) (2026-02-06)
 
 
