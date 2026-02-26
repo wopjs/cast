@@ -1,3 +1,11 @@
+/**
+ * Converts optional properties (`?`) into required properties
+ * with explicit `undefined` in their type.
+ *
+ * e.g. `{ a?: string; b: number }` becomes `{ a: string | undefined; b: number }`
+ */
+export type ExplicitOptional<T> = { [K in keyof Required<T>]: T[K] };
+
 /** Returns `U` if `T` is `never` or `any`, otherwise returns `T`. */
 export type SetDefaultType<T, U> = [T, U][T extends any ? (0 extends 1 & T ? 1 : 0) : 1];
 
