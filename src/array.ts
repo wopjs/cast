@@ -1,6 +1,4 @@
-import type { Defined, Truthy } from "./is-to-as";
-
-import { isTruthy } from "./is-to-as";
+import { type Defined, type Truthy, isTruthy } from "./is-to-as";
 
 /**
  * Lazy filterMap that avoids creating a new array when possible.
@@ -14,27 +12,27 @@ import { isTruthy } from "./is-to-as";
 export function inertFilterMap<T, U = T>(
   arr: T[],
   callbackfn: (value: T, index: number, arr: T[]) => U | undefined,
-  thisArg?: any
+  thisArg?: any,
 ): Defined<U>[];
 export function inertFilterMap<T, U = T>(
   arr: T[] | undefined,
   callbackfn: (value: T, index: number, arr: T[]) => U | undefined,
-  thisArg?: any
+  thisArg?: any,
 ): Defined<U>[] | undefined;
 export function inertFilterMap<T, U = T>(
   arr: readonly T[],
   callbackfn: (value: T, index: number, arr: readonly T[]) => U | undefined,
-  thisArg?: any
+  thisArg?: any,
 ): readonly Defined<U>[];
 export function inertFilterMap<T, U = T>(
   arr: readonly T[] | undefined,
   callbackfn: (value: T, index: number, arr: readonly T[]) => U | undefined,
-  thisArg?: any
+  thisArg?: any,
 ): readonly Defined<U>[] | undefined;
 export function inertFilterMap<T, U = T>(
   arr: readonly T[] | undefined,
   callbackfn: (value: T, index: number, arr: T[]) => U | undefined,
-  thisArg?: any
+  thisArg?: any,
 ): readonly Defined<U>[] | undefined {
   if (arr) {
     let result: Defined<U>[] | undefined;
@@ -65,43 +63,43 @@ export function inertFilterMap<T, U = T>(
 export function inertFilter<T, U extends T>(
   arr: T[],
   predicate: (value: T, index: number, arr: T[]) => value is U,
-  thisArg?: any
+  thisArg?: any,
 ): U[];
 export function inertFilter<T, U extends T>(
   arr: T[] | undefined,
   predicate: (value: T, index: number, arr: T[]) => value is U,
-  thisArg?: any
+  thisArg?: any,
 ): U[] | undefined;
 export function inertFilter<T, U extends T>(
   arr: readonly T[],
   predicate: (value: T, index: number, arr: readonly T[]) => value is U,
-  thisArg?: any
+  thisArg?: any,
 ): readonly U[];
 export function inertFilter<T, U extends T>(
   arr: readonly T[] | undefined,
   predicate: (value: T, index: number, arr: readonly T[]) => value is U,
-  thisArg?: any
+  thisArg?: any,
 ): readonly U[] | undefined;
 export function inertFilter<T>(arr: T[], predicate: (value: T, index: number, arr: T[]) => boolean, thisArg?: any): T[];
 export function inertFilter<T>(
   arr: T[] | undefined,
   predicate: (value: T, index: number, arr: T[]) => boolean,
-  thisArg?: any
+  thisArg?: any,
 ): T[] | undefined;
 export function inertFilter<T>(
   arr: readonly T[],
   predicate: (value: T, index: number, arr: readonly T[]) => boolean,
-  thisArg?: any
+  thisArg?: any,
 ): readonly T[];
 export function inertFilter<T>(
   arr: readonly T[] | undefined,
   predicate: (value: T, index: number, arr: readonly T[]) => boolean,
-  thisArg?: any
+  thisArg?: any,
 ): readonly T[] | undefined;
 export function inertFilter<T>(
   arr: readonly T[] | undefined,
   predicate: (value: T, index: number, arr: T[]) => boolean,
-  thisArg?: any
+  thisArg?: any,
 ): readonly T[] | undefined {
   if (arr) {
     let result: T[] | undefined;

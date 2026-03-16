@@ -145,7 +145,7 @@ type ExtractPlainObjectValue<T> = ExtractPlainObject<T>[keyof ExtractPlainObject
  */
 export const toPlainObjectOf = <T, U extends ExtractPlainObjectValue<T>>(
   x: T,
-  f: (v: ExtractPlainObjectValue<T>) => v is U
+  f: (v: ExtractPlainObjectValue<T>) => v is U,
 ): Record<PropertyKey, U> | undefined => {
   if (isPlainObject(x)) {
     let index = -1;

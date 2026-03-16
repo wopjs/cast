@@ -115,7 +115,7 @@ describe("array.ts", () => {
         function (this: typeof context, x) {
           return x * this.multiplier;
         },
-        context
+        context,
       );
       expect(result).toEqual([10, 20, 30]);
     });
@@ -291,7 +291,7 @@ describe("array.ts", () => {
         function (this: typeof context, x) {
           return x > this.threshold;
         },
-        context
+        context,
       );
       expect(result).toEqual([4, 5]);
     });

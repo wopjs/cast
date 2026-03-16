@@ -1,8 +1,8 @@
-import type { PlainObject } from ".";
-
+/* eslint-disable no-useless-assignment */
 import { describe, it, expect } from "vitest";
 
 import {
+  type PlainObject,
   isDefined,
   isTrue,
   toTrue,
@@ -2122,7 +2122,7 @@ describe("primitive.ts", () => {
         toString() {
           return "str";
         },
-      })
+      }),
     ).toBe("str");
   });
 });
