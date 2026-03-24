@@ -56,7 +56,7 @@
     "commit-and-tag-version": "^12.5.0",
     "eslint": "^10.0.3",
     "prettier": "^3.3.3",
-    "tsup": "^8.3.5",
+    "tsup": "^8.5.1",
     "typedoc": "^0.28.14",
     "typescript": "^6.0.2",
     "vitest": "^4.0.4"
