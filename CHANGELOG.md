@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [0.1.15](https://github.com/wopjs/cast/compare/v0.1.14...v0.1.15) (2026-04-06)
+
+
+### Bug Fixes
+
+* change moduleResolution from Node to bundler in tsconfig.json ([eae9963](https://github.com/wopjs/cast/commit/eae9963278c35d09b9cd1b0345f0a3264cde7ff6))
+
 ## [0.1.14](https://github.com/wopjs/cast/compare/v0.1.13...v0.1.14) (2026-02-26)
 
 
