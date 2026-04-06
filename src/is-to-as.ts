@@ -145,19 +145,18 @@ type ExtractPlainObjectValue<T> = ExtractPlainObject<T>[keyof ExtractPlainObject
  */
 export const toPlainObjectOf = <T, U extends ExtractPlainObjectValue<T>>(
   x: T,
-  f: (v: ExtractPlainObjectValue<T>) => v is U,
+  f: (v: ExtractPlainObjectValue<T>, k: keyof ExtractPlainObject<T>, o: ExtractPlainObject<T>) => v is U,
 ): Record<PropertyKey, U> | undefined => {
   if (isPlainObject(x)) {
-    let index = -1;
-    let props = Object.keys(x);
-    let length = props.length;
     let result: Record<PropertyKey, U> | undefined;
 
-    while (++index < length) {
-      let key = props[index] as keyof typeof x;
-      let value = x[key];
-      if (f(value)) {
-        (result ??= {})[key] = value;
+    for (let key in x) {
+      /* v8 ignore else */
+      if (Object.hasOwn(x, key)) {
+        let value = x[key];
+        if (f(value, key, x)) {
+          (result ??= {})[key] = value;
+        }
       }
     }
 
