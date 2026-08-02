@@ -58,7 +58,7 @@
     "prettier": "^3.3.3",
     "tsup": "^8.5.1",
     "typedoc": "^0.28.14",
-    "typescript": "^7.0.2",
+    "typescript": "npm:@typescript/typescript6@^6.0.2",
     "vitest": "^4.0.4"
   }
 }
